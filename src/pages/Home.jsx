@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Code, Users, Rocket } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Layout from '../components/common/Layout';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -123,8 +124,9 @@ const Home = () => {
         </div>
       )}
 
-      {/* Main Content */}
-      <div className={`${!showContent ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+      <Layout>
+        {/* Main Content */}
+        <div className={`${!showContent ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
         
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -275,7 +277,8 @@ const Home = () => {
             </motion.div>
           </div>
         </section>
-      </div>
+        </div>
+      </Layout>
     </>
   );
 };
