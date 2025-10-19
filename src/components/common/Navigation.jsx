@@ -21,30 +21,38 @@ const Navigation = () => {
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
     >
       <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl">
-        <div className="flex items-center space-x-8">
-          {navItems.slice(0, 2).map((item) => (
-            <NavLink key={item.name} item={item} currentPath={location.pathname} />
-          ))}
+        <div className="flex items-center justify-center">
+          <div className="flex items-center space-x-6">
+            {/* Left side nav items */}
+            <div className="flex items-center space-x-6">
+              {navItems.slice(0, 2).map((item) => (
+                <NavLink key={item.name} item={item} currentPath={location.pathname} />
+              ))}
+            </div>
 
-          {/* Center Logo */}
-          <Link to="/">
-            <motion.div 
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-2"
-              whileHover={{ scale: 1.1, rotate: 360 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.6, type: "spring" }}
-            >
-              <img
-                src="/devcatalyst-logo.svg"
-                alt="DevCatalyst Logo"
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-          </Link>
+            {/* Center Logo */}
+            <Link to="/" className="mx-8">
+              <motion.div 
+                className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-2"
+                whileHover={{ scale: 1.1, rotate: 360 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.6, type: "spring" }}
+              >
+                <img
+                  src="/devcatalyst-logo.svg"
+                  alt="DevCatalyst Logo"
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+            </Link>
 
-          {navItems.slice(2).map((item) => (
-            <NavLink key={item.name} item={item} currentPath={location.pathname} />
-          ))}
+            {/* Right side nav items */}
+            <div className="flex items-center space-x-6">
+              {navItems.slice(2).map((item) => (
+                <NavLink key={item.name} item={item} currentPath={location.pathname} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </motion.nav>
