@@ -21,18 +21,16 @@ const Navigation = () => {
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
     >
       <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl">
-        <div className="flex items-center justify-between">
-          {/* Left side nav items - ensure equal width */}
-          <div className="flex items-center space-x-6 min-w-[200px] justify-end">
-            {navItems.slice(0, 2).map((item) => (
-              <NavLink key={item.name} item={item} currentPath={location.pathname} />
-            ))}
-          </div>
-
-          {/* Center Logo */}
-          <Link to="/" className="flex-shrink-0 mx-8">
+        <div className="flex items-center justify-center space-x-6">
+          {/* First 2 nav items */}
+          {navItems.slice(0, 2).map((item) => (
+            <NavLink key={item.name} item={item} currentPath={location.pathname} />
+          ))}
+          
+          {/* Logo */}
+          <Link to="/">
             <motion.div 
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-2"
+              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-2 mx-2"
               whileHover={{ scale: 1.1, rotate: 360 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.6, type: "spring" }}
@@ -44,13 +42,11 @@ const Navigation = () => {
               />
             </motion.div>
           </Link>
-
-          {/* Right side nav items - ensure equal width */}
-          <div className="flex items-center space-x-6 min-w-[200px] justify-start">
-            {navItems.slice(2).map((item) => (
-              <NavLink key={item.name} item={item} currentPath={location.pathname} />
-            ))}
-          </div>
+          
+          {/* Last 3 nav items */}
+          {navItems.slice(2).map((item) => (
+            <NavLink key={item.name} item={item} currentPath={location.pathname} />
+          ))}
         </div>
       </div>
     </motion.nav>
