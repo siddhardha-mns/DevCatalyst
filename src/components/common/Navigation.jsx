@@ -10,6 +10,7 @@ const Navigation = () => {
     { name: 'About', path: '/about' },
     { name: 'Workshops', path: '/workshops' },
     { name: 'Gallery', path: '/gallery' },
+    { name: 'Components', path: '/components' },
     { name: 'Contact', path: '/contact' }
   ];
 
@@ -22,8 +23,8 @@ const Navigation = () => {
     >
       <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl inline-flex mx-auto">
         <div className="flex items-center justify-center space-x-6">
-          {/* First 2 nav items */}
-          {navItems.slice(0, 2).map((item) => (
+          {/* First 3 nav items */}
+          {navItems.slice(0, 3).map((item) => (
             <NavLink key={item.name} item={item} currentPath={location.pathname} />
           ))}
           
@@ -44,7 +45,7 @@ const Navigation = () => {
           </Link>
           
           {/* Last 3 nav items */}
-          {navItems.slice(2).map((item) => (
+          {navItems.slice(3).map((item) => (
             <NavLink key={item.name} item={item} currentPath={location.pathname} />
           ))}
         </div>

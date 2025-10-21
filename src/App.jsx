@@ -8,6 +8,10 @@ import About from './pages/About';
 import Workshops from './pages/Workshops';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
+import Components from './pages/Components';
+import GlowingEffectTest from './pages/GlowingEffectTest';
+import StarsTest from './pages/StarsTest';
+import { StarsDemo } from './components/ui/stars-demo';
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
           <Route path="/workshops" element={<Workshops />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/components" element={<Components />} />
+          <Route path="/glow-test" element={<GlowingEffectTest />} />
+          <Route path="/stars-test" element={<StarsTest />} />
+          <Route path="/stars-demo" element={<StarsDemo />} />
         </Routes>
       </AnimatePresence>
     </Router>
