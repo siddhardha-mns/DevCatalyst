@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Code, Sparkles, Star, Palette, Mouse, Zap, Eye, Play } from 'lucide-react';
+import { Code, Sparkles, Star, Palette, Mouse, Zap, Eye, Play, Navigation } from 'lucide-react';
 import Layout from '../components/common/Layout';
 import { StarsCanvas } from '../components/ui/stars-canvas';
 import { GlowingEffect } from '../components/ui/glowing-effect';
 import { GlowingEffectDemo } from '../components/ui/glowing-effect-demo';
 import { StarsDemo } from '../components/ui/stars-demo';
+import { TubeLightNavBarDemo } from '../components/ui/tubelight-navbar-demo';
 import { LiquidButton } from '../components/ui/liquid-glass-button';
 
 const Components = () => {
@@ -29,6 +30,12 @@ const Components = () => {
       name: 'Buttons & Controls',
       icon: <Zap className="w-5 h-5" />,
       color: 'from-green-500 to-cyan-600'
+    },
+    {
+      id: 'navigation',
+      name: 'Navigation',
+      icon: <Navigation className="w-5 h-5" />,
+      color: 'from-indigo-500 to-purple-600'
     }
   ];
 
@@ -62,13 +69,24 @@ const Components = () => {
       demo: 'button-demo',
       color: 'from-cyan-500 to-teal-600',
       icon: '🔘'
+    },
+    {
+      id: 'tubelight-navbar',
+      name: 'TubeLight Navigation',
+      category: 'navigation',
+      description: 'Animated navigation bar with tube light effect that follows active selection',
+      features: ['Tube light animation', 'Responsive design', 'Icon support', 'Smooth transitions'],
+      demo: 'tubelight-demo',
+      color: 'from-indigo-500 to-purple-600',
+      icon: '💡'
     }
   ];
 
   const demoComponents = {
     'stars-demo': <StarsDemo />,
     'glowing-demo': <GlowingEffectDemo />,
-    'button-demo': <ButtonDemo />
+    'button-demo': <ButtonDemo />,
+    'tubelight-demo': <TubeLightNavBarDemo />
   };
 
   return (
