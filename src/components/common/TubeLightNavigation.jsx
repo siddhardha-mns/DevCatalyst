@@ -33,12 +33,12 @@ const TubeLightNavigation = () => {
 
   return (
     <motion.nav
-      className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[calc(100vw-2rem)] sm:max-w-none sm:w-auto"
+      className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[calc(100vw-1rem)] sm:max-w-none sm:w-auto"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
     >
-      <div className="flex items-center gap-0.5 sm:gap-1 bg-white/5 border border-white/20 backdrop-blur-xl py-1.5 sm:py-2 px-1.5 sm:px-2 rounded-full shadow-2xl mx-auto">
+      <div className="flex items-center gap-0.5 sm:gap-1 bg-white/5 border border-white/20 backdrop-blur-xl py-1.5 sm:py-2 px-1 sm:px-2 rounded-full shadow-2xl mx-auto overflow-hidden">
         {/* First 3 nav items */}
         {navItems.slice(0, 3).map((item) => {
           const Icon = item.icon;
@@ -49,7 +49,7 @@ const TubeLightNavigation = () => {
               key={item.name}
               to={item.path}
               onClick={() => setActiveTab(item.path)}
-              className="relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-white/80 hover:text-white"
+              className="relative cursor-pointer text-xs sm:text-sm font-medium px-1.5 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-white/80 hover:text-white"
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
               <span className="sm:hidden relative z-10">
@@ -112,7 +112,7 @@ const TubeLightNavigation = () => {
               key={item.name}
               to={item.path}
               onClick={() => setActiveTab(item.path)}
-              className="relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-white/80 hover:text-white"
+              className="relative cursor-pointer text-xs sm:text-sm font-medium px-1.5 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-white/80 hover:text-white"
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
               <span className="sm:hidden relative z-10">

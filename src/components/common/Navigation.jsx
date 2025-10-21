@@ -16,13 +16,13 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      className="fixed top-8 inset-x-0 z-50 flex justify-center"
+      className="fixed top-8 inset-x-0 z-50 flex justify-center px-4"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
     >
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl inline-flex mx-auto">
-        <div className="flex items-center justify-center space-x-6">
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-4 sm:px-8 py-3 sm:py-4 shadow-2xl inline-flex mx-auto max-w-[calc(100vw-2rem)]">
+        <div className="flex items-center justify-center space-x-2 sm:space-x-6">
           {/* First 3 nav items */}
           {navItems.slice(0, 3).map((item) => (
             <NavLink key={item.name} item={item} currentPath={location.pathname} />
@@ -31,7 +31,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/">
             <motion.div 
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-2 mx-2"
+              className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-1.5 sm:p-2 mx-1 sm:mx-2"
               whileHover={{ scale: 1.1, rotate: 360 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.6, type: "spring" }}
@@ -60,7 +60,7 @@ const NavLink = ({ item, currentPath }) => {
   return (
     <Link to={item.path}>
       <motion.span
-        className={`relative text-sm font-medium transition-colors ${
+        className={`relative text-xs sm:text-sm font-medium transition-colors ${
           isActive ? 'text-blue-400' : 'text-white hover:text-blue-400'
         }`}
         whileHover={{ scale: 1.05 }}
