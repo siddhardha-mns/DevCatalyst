@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, Users, Star, ChevronRight, Code, Database, Smartphone, Brain } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/common/Layout';
+import { LiquidButton } from '../components/ui/liquid-glass-button';
+import { StarsCanvas } from '../components/ui/stars-canvas';
 
 const Workshops = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -123,6 +126,17 @@ const Workshops = () => {
 
   return (
     <Layout>
+      {/* Stars Background */}
+      <StarsCanvas 
+        transparent={false}
+        maxStars={700}
+        hue={280}
+        brightness={0.6}
+        speedMultiplier={0.9}
+        twinkleIntensity={25}
+        className="z-0"
+      />
+      
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div 
@@ -353,14 +367,12 @@ const Workshops = () => {
                     </div>
 
                     {/* Action Button */}
-                    <motion.button
-                      className="w-full mt-6 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold flex items-center justify-center space-x-2 group-hover:from-blue-400 group-hover:to-purple-500 transition-all"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <span>Register Now</span>
-                      <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </motion.button>
+                    <Link to="/contact" className="block mt-6">
+                      <LiquidButton size="lg" className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-400 hover:to-purple-500 flex items-center justify-center space-x-2">
+                        <span>Register Now</span>
+                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </LiquidButton>
+                    </Link>
                   </div>
 
                   {/* Hover overlay */}
@@ -387,20 +399,16 @@ const Workshops = () => {
                 Suggest a workshop and we'll make it happen!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.button
-                  className="px-8 py-4 bg-white text-black rounded-full font-semibold"
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Suggest a Workshop
-                </motion.button>
-                <motion.button
-                  className="px-8 py-4 border-2 border-white/50 text-white rounded-full font-semibold"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  View Past Workshops
-                </motion.button>
+                <Link to="/contact">
+                  <LiquidButton size="lg" className="bg-white text-black hover:shadow-[0_20px_40px_rgba(255,255,255,0.3)]">
+                    Suggest a Workshop
+                  </LiquidButton>
+                </Link>
+                <Link to="/gallery">
+                  <LiquidButton size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10">
+                    View Past Workshops
+                  </LiquidButton>
+                </Link>
               </div>
             </div>
           </motion.div>
