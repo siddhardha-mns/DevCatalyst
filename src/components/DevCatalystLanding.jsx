@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Github, Twitter, Linkedin, ArrowRight, Code, Users, Rocket, BookOpen, Award, Sparkles } from 'lucide-react';
+import { LiquidButton } from './ui/liquid-glass-button';
 
 const DevCatalystLanding = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -276,13 +277,17 @@ const DevCatalystLanding = () => {
             </p>
 
             <div className="hero-cta flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0">
-              <button className="group px-8 py-4 bg-white text-black rounded-full font-semibold hover:shadow-2xl hover:shadow-white/50 transition-all flex items-center space-x-2">
-                <span>Get Started</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="px-8 py-4 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all">
-                Learn More
-              </button>
+              <a href="#workshops">
+                <LiquidButton size="lg" className="bg-white text-black hover:shadow-2xl hover:shadow-white/50 flex items-center space-x-2">
+                  <span>Get Started</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </LiquidButton>
+              </a>
+              <a href="#about">
+                <LiquidButton size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10">
+                  Learn More
+                </LiquidButton>
+              </a>
             </div>
           </div>
         </section>
@@ -366,13 +371,17 @@ const DevCatalystLanding = () => {
                 Join a community of passionate developers and start building your future today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="group px-8 py-4 bg-white text-black rounded-full font-semibold hover:shadow-2xl hover:shadow-white/50 transition-all flex items-center justify-center space-x-2">
-                  <span>Join DevCatalyst</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="px-8 py-4 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all">
-                  Contact Us
-                </button>
+                <a href="#workshops">
+                  <LiquidButton size="lg" className="bg-white text-black hover:shadow-2xl hover:shadow-white/50 flex items-center justify-center space-x-2">
+                    <span>Join DevCatalyst</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </LiquidButton>
+                </a>
+                <a href="#contact">
+                  <LiquidButton size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10">
+                    Contact Us
+                  </LiquidButton>
+                </a>
               </div>
             </div>
           </div>
@@ -400,9 +409,9 @@ const DevCatalystLanding = () => {
               <div>
                 <h4 className="font-semibold mb-3">Connect</h4>
                 <div className="flex space-x-4">
-                  <a href="#" className="hover:text-blue-400"><Github className="w-5 h-5" /></a>
-                  <a href="#" className="hover:text-blue-400"><Twitter className="w-5 h-5" /></a>
-                  <a href="#" className="hover:text-blue-400"><Linkedin className="w-5 h-5" /></a>
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><Github className="w-5 h-5" /></a>
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><Twitter className="w-5 h-5" /></a>
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><Linkedin className="w-5 h-5" /></a>
                 </div>
               </div>
             </div>
