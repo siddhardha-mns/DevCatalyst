@@ -3,6 +3,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Code, Users, Rocket } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/common/Layout';
+import { DevCatalystHeroScroll } from '../components/DevCatalystHeroScroll';
+import { StarsCanvas } from '../components/ui/stars-canvas';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +89,17 @@ const Home = () => {
       {/* Loading Screen */}
       {isLoading && (
         <div className="loading-screen fixed inset-0 z-[100] bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center overflow-hidden">
-          <div className="relative flex flex-col items-center justify-center">
+          {/* Stars Background for Loading */}
+          <StarsCanvas 
+            transparent={false}
+            maxStars={1000}
+            hue={240}
+            brightness={0.8}
+            speedMultiplier={1.5}
+            twinkleIntensity={15}
+            className="z-0"
+          />
+          <div className="relative flex flex-col items-center justify-center z-10">
             <motion.div 
               className="loading-logo mb-12 opacity-0"
               initial={{ scale: 0, rotate: -180 }}
@@ -125,8 +137,19 @@ const Home = () => {
       )}
 
       <Layout>
+        {/* Stars Background */}
+        <StarsCanvas 
+          transparent={false}
+          maxStars={800}
+          hue={217}
+          brightness={0.6}
+          speedMultiplier={0.8}
+          twinkleIntensity={25}
+          className="z-0"
+        />
+        
         {/* Main Content */}
-        <div className={`${!showContent ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+        <div className={`relative z-10 ${!showContent ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
         
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -170,14 +193,16 @@ const Home = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8, duration: 0.8, type: "spring" }}
             >
-              <motion.button 
-                className="group px-8 py-4 bg-white text-black rounded-full font-semibold transition-all flex items-center space-x-2"
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.3)" }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span>Get Started</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+              <Link to="/workshops">
+                <motion.button 
+                  className="group px-8 py-4 bg-white text-black rounded-full font-semibold transition-all flex items-center space-x-2"
+                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.3)" }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+              </Link>
               <Link to="/about">
                 <motion.button 
                   className="px-8 py-4 border-2 border-white/50 text-white rounded-full font-semibold transition-all"
@@ -219,6 +244,9 @@ const Home = () => {
             ))}
           </motion.div>
         </section>
+
+        {/* Hero Scroll Demo Section */}
+        <DevCatalystHeroScroll />
 
         {/* Features Preview */}
         <section className="relative py-20 px-6">
@@ -265,7 +293,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <Link to="/workshops">
+              <Link to="/about">
                 <motion.button
                   className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold"
                   whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59,130,246,0.3)" }}
