@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, Play, Image as ImageIcon, Calendar, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/common/Layout';
+import { LiquidButton } from '../components/ui/liquid-glass-button';
+import { StarsCanvas } from '../components/ui/stars-canvas';
+import { GlowingEffect } from '../components/ui/glowing-effect';
 
 const Gallery = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -111,6 +115,17 @@ const Gallery = () => {
 
   return (
     <Layout>
+      {/* Stars Background */}
+      <StarsCanvas 
+        transparent={false}
+        maxStars={900}
+        hue={180}
+        brightness={0.7}
+        speedMultiplier={1.1}
+        twinkleIntensity={20}
+        className="z-0"
+      />
+      
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div 
@@ -245,6 +260,14 @@ const Gallery = () => {
                   whileHover={{ scale: 1.02, y: -5 }}
                   onClick={() => setSelectedProject(project)}
                 >
+                  <GlowingEffect
+                    disabled={false}
+                    glow={true}
+                    proximity={60}
+                    spread={40}
+                    borderWidth={3}
+                    inactiveZone={0.05}
+                  />
                   {/* Project Header */}
                   <div className={`h-40 bg-gradient-to-r ${project.color} relative overflow-hidden flex items-center justify-center`}>
                     <motion.div
@@ -343,10 +366,10 @@ const Gallery = () => {
 
                     {/* Action Buttons */}
                     <div className="flex space-x-3">
-                      <motion.button
-                        className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                      <LiquidButton
+                        size="sm"
+                        variant="secondary"
+                        className="flex-1 flex items-center justify-center space-x-2 bg-white/10 text-white hover:bg-white/20"
                         onClick={(e) => {
                           e.stopPropagation();
                           window.open(project.github, '_blank');
@@ -354,11 +377,10 @@ const Gallery = () => {
                       >
                         <Github className="w-4 h-4" />
                         <span>Code</span>
-                      </motion.button>
-                      <motion.button
-                        className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-medium"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                      </LiquidButton>
+                      <LiquidButton
+                        size="sm"
+                        className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white"
                         onClick={(e) => {
                           e.stopPropagation();
                           window.open(project.demo, '_blank');
@@ -366,7 +388,7 @@ const Gallery = () => {
                       >
                         <ExternalLink className="w-4 h-4" />
                         <span>Demo</span>
-                      </motion.button>
+                      </LiquidButton>
                     </div>
                   </div>
 
@@ -394,20 +416,19 @@ const Gallery = () => {
                 and showcase your work to the world.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.button
-                  className="px-8 py-4 bg-white text-black rounded-full font-semibold"
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Start Your Project
-                </motion.button>
-                <motion.button
-                  className="px-8 py-4 border-2 border-white/50 text-white rounded-full font-semibold"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                  whileTap={{ scale: 0.95 }}
+                <Link to="/workshops">
+                  <LiquidButton size="lg" className="bg-white text-black hover:shadow-[0_20px_40px_rgba(255,255,255,0.3)]">
+                    Start Your Project
+                  </LiquidButton>
+                </Link>
+                <LiquidButton
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-white/50 text-white hover:bg-white/10"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
                   Browse All Projects
-                </motion.button>
+                </LiquidButton>
               </div>
             </div>
           </motion.div>
@@ -461,22 +482,23 @@ const Gallery = () => {
                 </div>
                 
                 <div className="flex space-x-4">
-                  <motion.button
-                    className="flex items-center space-x-2 px-6 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
-                    whileHover={{ scale: 1.02 }}
+                  <LiquidButton
+                    size="lg"
+                    variant="secondary"
+                    className="flex items-center space-x-2 bg-white/10 text-white hover:bg-white/20"
                     onClick={() => window.open(selectedProject.github, '_blank')}
                   >
                     <Github className="w-5 h-5" />
                     <span>View Code</span>
-                  </motion.button>
-                  <motion.button
-                    className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-medium"
-                    whileHover={{ scale: 1.02 }}
+                  </LiquidButton>
+                  <LiquidButton
+                    size="lg"
+                    className="flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white"
                     onClick={() => window.open(selectedProject.demo, '_blank')}
                   >
                     <ExternalLink className="w-5 h-5" />
                     <span>Live Demo</span>
-                  </motion.button>
+                  </LiquidButton>
                 </div>
               </div>
             </motion.div>
