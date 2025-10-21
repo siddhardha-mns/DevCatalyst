@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Phone, MapPin, Github, Twitter, Linkedin, Send, CheckCircle } from 'lucide-react';
 import Layout from '../components/common/Layout';
+import { StarsCanvas } from '../components/ui/stars-canvas';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -73,9 +74,9 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: <Github className="w-6 h-6" />, name: "GitHub", url: "https://github.com/devcatalyst" },
-    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", url: "https://twitter.com/devcatalyst" },
-    { icon: <Linkedin className="w-6 h-6" />, name: "LinkedIn", url: "https://linkedin.com/company/devcatalyst" }
+    { icon: <Github className="w-6 h-6" />, name: "GitHub", url: "https://github.com" },
+    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", url: "https://twitter.com" },
+    { icon: <Linkedin className="w-6 h-6" />, name: "LinkedIn", url: "https://linkedin.com" }
   ];
 
   const faqs = [
@@ -99,6 +100,17 @@ const Contact = () => {
 
   return (
     <Layout>
+      {/* Stars Background */}
+      <StarsCanvas 
+        transparent={false}
+        maxStars={500}
+        hue={120}
+        brightness={0.5}
+        speedMultiplier={0.6}
+        twinkleIntensity={35}
+        className="z-0"
+      />
+      
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div 
