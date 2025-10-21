@@ -424,7 +424,7 @@ const Gallery = () => {
                 <LiquidButton
                   size="lg"
                   variant="outline"
-                  className="border-2 border-white/50 text-white hover:bg-white/10"
+                  className="border-2 border-white/50 !text-white hover:bg-white/10"
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
                   Browse All Projects

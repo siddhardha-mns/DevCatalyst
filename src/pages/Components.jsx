@@ -303,7 +303,7 @@ const Components = () => {
                 <LiquidButton
                   size="lg"
                   variant="outline"
-                  className="border-2 border-white/50 text-white hover:bg-white/10"
+                  className="border-2 border-white/50 !text-white hover:bg-white/10"
                 >
                   <Eye className="w-5 h-5 mr-2" />
                   Browse Documentation
