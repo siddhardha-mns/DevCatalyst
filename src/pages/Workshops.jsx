@@ -405,7 +405,7 @@ const Workshops = () => {
                   </LiquidButton>
                 </Link>
                 <Link to="/gallery">
-                  <LiquidButton size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10">
+                  <LiquidButton size="lg" variant="outline" className="border-2 border-white/50 !text-black hover:bg-white/10 bg-white">
                     View Past Workshops
                   </LiquidButton>
                 </Link>
