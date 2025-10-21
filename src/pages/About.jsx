@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { BookOpen, Award, Sparkles, Target, Heart, Lightbulb } from 'lucide-react';
 import Layout from '../components/common/Layout';
+import { StarsCanvas } from '../components/ui/stars-canvas';
+import { GlowingEffect } from '../components/ui/glowing-effect';
 
 const About = () => {
   const { scrollY } = useScroll();
@@ -56,6 +58,17 @@ const About = () => {
 
   return (
     <Layout>
+      {/* Stars Background */}
+      <StarsCanvas 
+        transparent={false}
+        maxStars={600}
+        hue={217}
+        brightness={0.5}
+        speedMultiplier={0.7}
+        twinkleIntensity={30}
+        className="z-0"
+      />
+      
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div 
@@ -191,6 +204,14 @@ const About = () => {
                 viewport={{ once: true }}
                 style={{ transformStyle: "preserve-3d" }}
               >
+                <GlowingEffect
+                  disabled={false}
+                  glow={true}
+                  proximity={80}
+                  spread={50}
+                  borderWidth={2}
+                  inactiveZone={0.1}
+                />
                 <motion.div 
                   className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 mx-auto"
                   whileHover={{ rotate: 360, scale: 1.1 }}
