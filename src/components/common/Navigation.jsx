@@ -15,12 +15,12 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-auto"
+      className="fixed top-8 inset-x-0 z-50 flex justify-center"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
     >
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl">
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-8 py-4 shadow-2xl inline-flex mx-auto">
         <div className="flex items-center justify-center space-x-6">
           {/* First 2 nav items */}
           {navItems.slice(0, 2).map((item) => (
