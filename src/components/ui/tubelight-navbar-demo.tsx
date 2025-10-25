@@ -1,25 +1,11 @@
-import { Home, User, Target, Image, Palette, Phone } from 'lucide-react'
-import { TubeLightNavBar } from "@/components/ui/tubelight-navbar"
+import React from 'react';
+import Navigation from '@/components/common/Navigation';
 
 export function TubeLightNavBarDemo() {
-  const navItems = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'About', path: '/about', icon: User },
-    { name: 'Workshops', path: '/workshops', icon: Target },
-    { name: 'Gallery', path: '/gallery', icon: Image },
-    { name: 'Components', path: '/components', icon: Palette },
-    { name: 'Contact', path: '/contact', icon: Phone }
-  ]
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
-      <TubeLightNavBar 
-        items={navItems}
-        showLogo={true}
-        logoSrc="/devcatalyst-logo.svg"
-        logoAlt="DevCatalyst Logo"
-      />
-      
+      <Navigation demoMode />
+
       <div className="flex items-center justify-center min-h-screen px-6">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-4">
@@ -56,12 +42,12 @@ export function TubeLightNavBarDemo() {
               </div>
             </div>
           </div>
-          
+
           <p className="text-blue-200/60 text-sm">
             Click on different navigation items to see the tube light effect in action
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

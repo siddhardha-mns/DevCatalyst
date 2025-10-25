@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Phone, MapPin, Github, Twitter, Linkedin, Send, CheckCircle } from 'lucide-react';
+import {
+  Mail,
+  MessageSquare,
+  Phone,
+  MapPin,
+  Github,
+  Twitter,
+  Linkedin,
+  Send,
+  CheckCircle,
+  MessageCircle,
+} from 'lucide-react';
 import Layout from '../components/common/Layout';
-import { StarsCanvas } from '../components/ui/stars-canvas';
+import { GradientText } from '../components/ui/animated-hero';
+import { GradientButton } from '../components/ui/gradient-button';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,20 +29,20 @@ const Contact = () => {
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     setIsSubmitting(false);
     setIsSubmitted(true);
-    
+
     // Reset form after showing success
     setTimeout(() => {
       setIsSubmitted(false);
@@ -41,79 +53,73 @@ const Contact = () => {
   const contactMethods = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: "Email Us",
-      description: "Get in touch via email",
-      contact: "hello@devcatalyst.dev",
-      action: "mailto:hello@devcatalyst.dev",
-      color: "from-blue-500 to-cyan-500"
+      title: 'Email Us',
+      description: 'Get in touch via email',
+      contact: 'hello@devcatalyst.dev',
+      action: 'mailto:hello@devcatalyst.dev',
+      color: 'from-slate-900 to-slate-800',
     },
     {
       icon: <MessageSquare className="w-6 h-6" />,
-      title: "Live Chat",
-      description: "Chat with our team",
-      contact: "Available 24/7",
-      action: "#",
-      color: "from-green-500 to-emerald-500"
+      title: 'Live Chat',
+      description: 'Chat with our team',
+      contact: 'Available 24/7',
+      action: '#',
+      color: 'from-slate-900 to-slate-800',
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: "Call Us",
-      description: "Speak directly with us",
-      contact: "+1 (555) 123-4567",
-      action: "tel:+15551234567",
-      color: "from-purple-500 to-pink-500"
+      title: 'Call Us',
+      description: 'Speak directly with us',
+      contact: '+1 (555) 123-4567',
+      action: 'tel:+15551234567',
+      color: 'from-slate-900 to-slate-800',
     },
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: "Visit Us",
-      description: "Come to our office",
-      contact: "123 Tech Street, Silicon Valley",
-      action: "https://maps.google.com",
-      color: "from-orange-500 to-red-500"
-    }
+      title: 'Visit Us',
+      description: 'Come to our office',
+      contact: '123 Tech Street, Silicon Valley',
+      action: 'https://maps.google.com',
+      color: 'from-slate-900 to-slate-800',
+    },
   ];
 
   const socialLinks = [
-    { icon: <Github className="w-6 h-6" />, name: "GitHub", url: "https://github.com" },
-    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", url: "https://twitter.com" },
-    { icon: <Linkedin className="w-6 h-6" />, name: "LinkedIn", url: "https://linkedin.com" }
+    { icon: <Github className="w-6 h-6" />, name: 'GitHub', url: 'https://github.com' },
+    { icon: <Twitter className="w-6 h-6" />, name: 'Twitter', url: 'https://twitter.com' },
+    { icon: <Linkedin className="w-6 h-6" />, name: 'LinkedIn', url: 'https://linkedin.com' },
   ];
 
   const faqs = [
     {
-      question: "How can I join DevCatalyst?",
-      answer: "Simply fill out our contact form or join one of our upcoming workshops. We welcome developers of all skill levels!"
+      question: 'How can I join DevCatalyst?',
+      answer:
+        'Simply fill out our contact form or join one of our upcoming workshops. We welcome developers of all skill levels!',
     },
     {
-      question: "Are your workshops free?",
-      answer: "Most of our workshops are free for community members. Some advanced workshops may have a small fee to cover materials."
+      question: 'Are your workshops free?',
+      answer:
+        'Most of our workshops are free for community members. Some advanced workshops may have a small fee to cover materials.',
     },
     {
-      question: "Can I propose a workshop topic?",
-      answer: "Absolutely! We love hearing from our community. Submit your ideas through our contact form and we'll consider them for future sessions."
+      question: 'Can I propose a workshop topic?',
+      answer:
+        "Absolutely! We love hearing from our community. Submit your ideas through our contact form and we'll consider them for future sessions.",
     },
     {
-      question: "Do you offer mentorship programs?",
-      answer: "Yes, we have both peer-to-peer mentorship and connections with industry professionals. Reach out to learn more!"
-    }
+      question: 'Do you offer mentorship programs?',
+      answer:
+        'Yes, we have both peer-to-peer mentorship and connections with industry professionals. Reach out to learn more!',
+    },
   ];
 
   return (
     <Layout>
-      {/* Stars Background */}
-      <StarsCanvas 
-        transparent={false}
-        maxStars={500}
-        hue={120}
-        brightness={0.5}
-        speedMultiplier={0.6}
-        twinkleIntensity={35}
-        className="z-0"
-      />
-      
+      <div className="select-text">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <motion.div 
+        <motion.div
           className="max-w-6xl mx-auto text-center relative z-10"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,38 +129,39 @@ const Contact = () => {
             className="mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
+            transition={{ delay: 0.2, duration: 0.8, type: 'spring' }}
           >
-            <div className="inline-block px-6 py-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-white/30 rounded-full text-white text-lg font-medium backdrop-blur-sm">
-              📞 Get In Touch
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-cyan-500/30 rounded-full backdrop-blur">
+              <MessageCircle className="w-5 h-5 text-cyan-300" />
+              <span className="text-slate-200 font-medium text-base">Get In Touch</span>
             </div>
           </motion.div>
 
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-8 text-white"
+          <motion.h1
+            className="text-5xl md:text-7xl font-bold mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}
-            style={{ textShadow: '0 0 30px rgba(255,255,255,0.3)' }}
           >
-            Let's Connect
-            <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent block">
-              and Build Together
+            <span className="text-white" style={{ textShadow: '0 0 30px rgba(255,255,255,0.3)' }}>
+              Let's Connect
             </span>
+            <span className="block mt-2 text-cyan-300">and Build Together</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             className="text-xl md:text-2xl text-slate-200 mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1 }}
           >
-            Have questions, ideas, or want to join our community? We'd love to hear from you. 
-            Reach out through any of the channels below, and let's start building something amazing together.
+            Have questions, ideas, or want to join our community? We'd love to hear from you. Reach
+            out through any of the channels below, and let's start building something amazing
+            together.
           </motion.p>
 
           {/* Animated Contact Methods Preview */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,20 +174,14 @@ const Contact = () => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.div 
-                  className={`w-16 h-16 mx-auto mb-3 bg-gradient-to-r ${method.color} rounded-2xl flex items-center justify-center text-white`}
-                  animate={{ 
-                    boxShadow: [
-                      "0 0 20px rgba(0,0,0,0.3)",
-                      "0 0 30px rgba(255,255,255,0.2)",
-                      "0 0 20px rgba(0,0,0,0.3)"
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
+                <motion.div
+                  className={`w-16 h-16 mx-auto mb-3 bg-gradient-to-r ${method.color} rounded-2xl flex items-center justify-center`}
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {method.icon}
+                  <div className="text-cyan-300">{method.icon}</div>
                 </motion.div>
-                <h3 className="font-semibold text-white text-sm">{method.title}</h3>
+                <h3 className="font-medium text-slate-200 text-sm">{method.title}</h3>
               </motion.div>
             ))}
           </motion.div>
@@ -190,14 +191,17 @@ const Contact = () => {
       {/* Contact Methods Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Multiple Ways to Reach Us</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="text-white">Multiple Ways to </span>
+              <GradientText>Reach Us</GradientText>
+            </h2>
             <p className="text-xl text-slate-200">Choose the method that works best for you</p>
           </motion.div>
 
@@ -206,31 +210,29 @@ const Contact = () => {
               <motion.a
                 key={index}
                 href={method.action}
-                className="group relative bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8 hover:border-white/40 transition-all duration-500 text-center"
+                className="group relative bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 hover:border-slate-600 transition-all duration-300 text-center"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, y: -5 }}
                 viewport={{ once: true }}
               >
-                <motion.div 
-                  className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-r ${method.color} rounded-2xl flex items-center justify-center text-white`}
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
+                <motion.div
+                  className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-r ${method.color} rounded-2xl flex items-center justify-center`}
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {method.icon}
+                  <div className="text-cyan-300">{method.icon}</div>
                 </motion.div>
-                
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
+
+                <h3 className="text-xl font-semibold mb-3 text-slate-100 group-hover:text-cyan-300 transition-colors">
                   {method.title}
                 </h3>
-                <p className="text-slate-300 mb-4">{method.description}</p>
-                <p className="text-blue-400 font-medium">{method.contact}</p>
+                <p className="text-slate-400 mb-4">{method.description}</p>
+                <p className="text-cyan-300 font-medium">{method.contact}</p>
 
                 {/* Hover effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"
-                />
+                <motion.div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none" />
               </motion.a>
             ))}
           </div>
@@ -239,14 +241,17 @@ const Contact = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Form */}
             <motion.div
-              className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8"
+              className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-bold mb-6 text-white">Send us a Message</h3>
-              
+              <h3 className="text-3xl font-bold mb-6">
+                <span className="text-slate-100">Send us a </span>
+                <span className="text-cyan-300">Message</span>
+              </h3>
+
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
@@ -263,11 +268,11 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                        className="w-full px-4 py-3 bg-white/5 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
                         placeholder="Your full name"
                       />
                     </motion.div>
-                    
+
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -281,12 +286,12 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                        className="w-full px-4 py-3 bg-white/5 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
                         placeholder="your@email.com"
                       />
                     </motion.div>
                   </div>
-                  
+
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -300,11 +305,11 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                      className="w-full px-4 py-3 bg-white/5 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
                       placeholder="What's this about?"
                     />
                   </motion.div>
-                  
+
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -318,47 +323,48 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all resize-none"
                       placeholder="Tell us more about your message..."
                     />
                   </motion.div>
-                  
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full flex items-center justify-center space-x-3 px-8 py-4 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-xl font-semibold transition-all ${
-                      isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:from-green-400 hover:to-blue-500'
-                    }`}
-                    whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                    whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                     viewport={{ once: true }}
                   >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </motion.button>
+                    <GradientButton
+                      variant="accent"
+                      size="lg"
+                      className="w-full"
+                      disabled={isSubmitting}
+                      onClick={() => {}}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <motion.div
+                            className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                          />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </GradientButton>
+                  </motion.div>
                 </form>
               ) : (
                 <motion.div
                   className="text-center py-12"
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.6 }}
+                  transition={{ type: 'spring', duration: 0.6 }}
                 >
                   <motion.div
                     className="w-20 h-20 mx-auto mb-6 bg-green-500 rounded-full flex items-center justify-center"
@@ -368,7 +374,9 @@ const Contact = () => {
                     <CheckCircle className="w-10 h-10 text-white" />
                   </motion.div>
                   <h4 className="text-2xl font-bold text-white mb-4">Message Sent!</h4>
-                  <p className="text-slate-300">Thanks for reaching out. We'll get back to you soon!</p>
+                  <p className="text-slate-300">
+                    Thanks for reaching out. We'll get back to you soon!
+                  </p>
                 </motion.div>
               )}
             </motion.div>
@@ -377,13 +385,16 @@ const Contact = () => {
             <div className="space-y-8">
               {/* Social Links */}
               <motion.div
-                className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8"
+                className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold mb-6 text-white">Connect With Us</h3>
+                <h3 className="text-2xl font-bold mb-6">
+                  <span className="text-white">Connect </span>
+                  <GradientText gradient="from-blue-400 to-purple-400">With Us</GradientText>
+                </h3>
                 <div className="space-y-4">
                   {socialLinks.map((social, index) => (
                     <motion.a
@@ -398,10 +409,10 @@ const Contact = () => {
                       transition={{ delay: index * 0.1 }}
                       viewport={{ once: true }}
                     >
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white">
-                        {social.icon}
+                      <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
+                        <div className="text-cyan-300">{social.icon}</div>
                       </div>
-                      <span className="text-white font-medium">{social.name}</span>
+                      <span className="text-slate-200 font-medium">{social.name}</span>
                     </motion.a>
                   ))}
                 </div>
@@ -409,13 +420,13 @@ const Contact = () => {
 
               {/* FAQ */}
               <motion.div
-                className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8"
+                className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold mb-6 text-white">Frequently Asked Questions</h3>
+                <h3 className="text-2xl font-semibold mb-6 text-slate-100">FAQs</h3>
                 <div className="space-y-4">
                   {faqs.map((faq, index) => (
                     <motion.div
@@ -436,6 +447,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };

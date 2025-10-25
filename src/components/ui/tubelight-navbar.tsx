@@ -1,65 +1,73 @@
-"use client"
+'use client';
 
-import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { Link, useLocation } from "react-router-dom"
-import { LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import React from 'react';
+import TubeLightNavigation from '@/components/common/TubeLightNavigation';
+
+// Deprecated: This wrapper ensures any old imports render the new navbar
+export function TubeLightNavBar() {
+  return <TubeLightNavigation demoMode />;
+}
+
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface NavItem {
-  name: string
-  path: string
-  icon: LucideIcon
+  name: string;
+  path: string;
+  icon: LucideIcon;
 }
 
 interface TubeLightNavBarProps {
-  items: NavItem[]
-  className?: string
-  showLogo?: boolean
-  logoSrc?: string
-  logoAlt?: string
+  items: NavItem[];
+  className?: string;
+  showLogo?: boolean;
+  logoSrc?: string;
+  logoAlt?: string;
 }
 
-export function TubeLightNavBar({ 
-  items, 
-  className, 
-  showLogo = true, 
-  logoSrc = "/devcatalyst-logo.svg",
-  logoAlt = "DevCatalyst Logo" 
+export function TubeLightNavBar({
+  items,
+  className,
+  showLogo = true,
+  logoSrc = '/devcatalyst-logo.svg',
+  logoAlt = 'DevCatalyst Logo',
 }: TubeLightNavBarProps) {
-  const location = useLocation()
-  const [activeTab, setActiveTab] = useState(location.pathname)
-  const [isMobile, setIsMobile] = useState(false)
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
-    setActiveTab(location.pathname)
-  }, [location.pathname])
+    setActiveTab(location.pathname);
+  }, [location.pathname]);
 
   return (
     <motion.div
       className={cn(
-        "fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[calc(100vw-2rem)] sm:max-w-none sm:w-auto",
+        'fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[calc(100vw-2rem)] sm:max-w-none sm:w-auto',
         className,
       )}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+      transition={{ duration: 0.8, type: 'spring', stiffness: 100 }}
     >
       <div className="flex items-center gap-0.5 sm:gap-1 bg-background/5 border border-white/20 backdrop-blur-xl py-1.5 sm:py-2 px-1.5 sm:px-2 rounded-full shadow-2xl mx-auto">
         {/* First half of navigation items */}
         {items.slice(0, Math.ceil(items.length / 2)).map((item) => {
-          const Icon = item.icon
-          const isActive = activeTab === item.path
+          const Icon = item.icon;
+          const isActive = activeTab === item.path;
 
           return (
             <Link
@@ -67,9 +75,9 @@ export function TubeLightNavBar({
               to={item.path}
               onClick={() => setActiveTab(item.path)}
               className={cn(
-                "relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300",
-                "text-white/80 hover:text-white",
-                isActive && "text-white"
+                'relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300',
+                'text-white/80 hover:text-white',
+                isActive && 'text-white',
               )}
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
@@ -82,14 +90,14 @@ export function TubeLightNavBar({
                   className="absolute inset-0 w-full rounded-full -z-10"
                   initial={false}
                   transition={{
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 300,
                     damping: 30,
                   }}
                 >
                   {/* Main tube background */}
                   <div className="absolute inset-0 bg-white/10 rounded-full" />
-                  
+
                   {/* Tube light effect on top */}
                   <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-blue-400 rounded-t-full shadow-lg">
                     {/* Outer glow */}
@@ -104,31 +112,27 @@ export function TubeLightNavBar({
                 </motion.div>
               )}
             </Link>
-          )
+          );
         })}
 
         {/* Logo in the center */}
         {showLogo && (
           <Link to="/">
-            <motion.div 
+            <motion.div
               className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-lg p-1.5 sm:p-2 mx-1 sm:mx-2"
               whileHover={{ scale: 1.1, rotate: 360 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.6, type: "spring" }}
+              transition={{ duration: 0.6, type: 'spring' }}
             >
-              <img
-                src={logoSrc}
-                alt={logoAlt}
-                className="w-full h-full object-contain"
-              />
+              <img src={logoSrc} alt={logoAlt} className="w-full h-full object-contain" />
             </motion.div>
           </Link>
         )}
 
         {/* Second half of navigation items */}
         {items.slice(Math.ceil(items.length / 2)).map((item) => {
-          const Icon = item.icon
-          const isActive = activeTab === item.path
+          const Icon = item.icon;
+          const isActive = activeTab === item.path;
 
           return (
             <Link
@@ -136,9 +140,9 @@ export function TubeLightNavBar({
               to={item.path}
               onClick={() => setActiveTab(item.path)}
               className={cn(
-                "relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300",
-                "text-white/80 hover:text-white",
-                isActive && "text-white"
+                'relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300',
+                'text-white/80 hover:text-white',
+                isActive && 'text-white',
               )}
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
@@ -151,14 +155,14 @@ export function TubeLightNavBar({
                   className="absolute inset-0 w-full rounded-full -z-10"
                   initial={false}
                   transition={{
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 300,
                     damping: 30,
                   }}
                 >
                   {/* Main tube background */}
                   <div className="absolute inset-0 bg-white/10 rounded-full" />
-                  
+
                   {/* Tube light effect on top */}
                   <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-blue-400 rounded-t-full shadow-lg">
                     {/* Outer glow */}
@@ -173,9 +177,9 @@ export function TubeLightNavBar({
                 </motion.div>
               )}
             </Link>
-          )
+          );
         })}
       </div>
     </motion.div>
-  )
+  );
 }

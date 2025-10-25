@@ -1,5 +1,5 @@
-import React from "react";
-import { ContainerScroll } from "./ui/container-scroll-animation";
+import React from 'react';
+import { ContainerScroll } from './ui/container-scroll-animation';
 
 export function DevCatalystHeroScroll() {
   return (
@@ -14,7 +14,8 @@ export function DevCatalystHeroScroll() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
-              Join thousands of students building real-world projects, gaining industry experience, and accelerating their tech careers
+              Join thousands of students building real-world projects, gaining industry experience,
+              and accelerating their tech careers
             </p>
           </>
         }

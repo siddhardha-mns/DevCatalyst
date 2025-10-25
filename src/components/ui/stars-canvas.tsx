@@ -2,14 +2,14 @@
 import { useEffect, useRef } from 'react';
 
 interface StarsCanvasProps {
-  transparent?: boolean;       // Background transparency
-  maxStars?: number;           // Total number of stars
-  hue?: number;                // Color hue for the stars
-  brightness?: number;         // Overall star brightness (0–1)
-  speedMultiplier?: number;    // Global animation speed multiplier
-  twinkleIntensity?: number;   // How often stars twinkle
-  className?: string;          // Custom class for the canvas
-  paused?: boolean;            // Pause animation toggle
+  transparent?: boolean; // Background transparency
+  maxStars?: number; // Total number of stars
+  hue?: number; // Color hue for the stars
+  brightness?: number; // Overall star brightness (0–1)
+  speedMultiplier?: number; // Global animation speed multiplier
+  twinkleIntensity?: number; // How often stars twinkle
+  className?: string; // Custom class for the canvas
+  paused?: boolean; // Pause animation toggle
 }
 
 export function StarsCanvas({
@@ -43,9 +43,10 @@ export function StarsCanvas({
     canvas2.height = 100;
     const half = canvas2.width / 2;
     const gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
-    gradient2.addColorStop(0.025, '#fff');
-    gradient2.addColorStop(0.1, `hsl(${hue}, 61%, 33%)`);
-    gradient2.addColorStop(0.25, `hsl(${hue}, 64%, 6%)`);
+    // White stars regardless of hue
+    gradient2.addColorStop(0.025, '#ffffff');
+    gradient2.addColorStop(0.1, hue === 0 ? '#ffffff' : `hsl(${hue}, 61%, 88%)`);
+    gradient2.addColorStop(0.25, hue === 0 ? 'rgba(255, 255, 255, 0.3)' : `hsl(${hue}, 64%, 6%)`);
     gradient2.addColorStop(1, 'transparent');
     ctx2.fillStyle = gradient2;
     ctx2.beginPath();
@@ -115,7 +116,8 @@ export function StarsCanvas({
 
       ctx.globalCompositeOperation = 'source-over';
       ctx.globalAlpha = 0.8;
-      ctx.fillStyle = transparent ? 'hsla(217, 64%, 6%, 0)' : 'hsla(217, 64%, 6%, 1)';
+      // Black background for space theme
+      ctx.fillStyle = transparent ? 'rgba(0, 0, 0, 0)' : 'rgb(0, 0, 0)';
       ctx.fillRect(0, 0, w, h);
 
       ctx.globalCompositeOperation = 'lighter';
@@ -144,8 +146,8 @@ export function StarsCanvas({
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed top-0 left-0 w-full h-full ${className}`}
-      style={{ display: 'block' }}
+      className={`fixed top-0 left-0 w-full h-full pointer-events-none ${className}`}
+      style={{ display: 'block', zIndex: 0 }}
     />
   );
 }

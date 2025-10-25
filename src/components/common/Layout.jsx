@@ -2,42 +2,34 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
+import { ScrollProgress, ScrollToTop } from '../ui/scroll-progress';
+import { useSmoothScroll } from '../../hooks/useScrollEffects';
+import { StarsCanvas } from '../ui/stars-canvas';
 
 const Layout = ({ children }) => {
   const location = useLocation();
+  useSmoothScroll();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-black text-white overflow-hidden relative select-none">
+      {/* Rotating Stars Background */}
+      <StarsCanvas
+        transparent={false}
+        maxStars={800}
+        hue={0}
+        brightness={1}
+        speedMultiplier={0.8}
+        twinkleIntensity={25}
+        className="z-0"
+      />
+
+      <ScrollProgress />
       <Navigation />
-      
-      {/* Floating Particles */}
-      <div className="fixed inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="particle absolute w-1 h-1 bg-white rounded-full opacity-30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              scale: [0.5, 1.5, 0.5],
-              opacity: [0.3, 0.8, 0.3]
-            }}
-            transition={{
-              duration: Math.random() * 3 + 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.2
-            }}
-          />
-        ))}
-      </div>
+      <ScrollToTop />
 
       {/* Page Content */}
       <motion.main

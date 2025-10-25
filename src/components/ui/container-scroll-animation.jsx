@@ -1,11 +1,8 @@
-"use client";
-import React, { useRef } from "react";
-import { useScroll, useTransform, motion, useMotionValueEvent } from "framer-motion";
+'use client';
+import React, { useRef } from 'react';
+import { useScroll, useTransform, motion } from 'framer-motion';
 
-export const ContainerScroll = ({
-  titleComponent,
-  children,
-}) => {
+export const ContainerScroll = ({ titleComponent, children }) => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -15,9 +12,9 @@ export const ContainerScroll = ({
   React.useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
     return () => {
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -37,7 +34,7 @@ export const ContainerScroll = ({
       <div
         className="py-10 md:py-40 w-full relative"
         style={{
-          perspective: "1000px",
+          perspective: '1000px',
         }}
       >
         <Header translate={translate} titleComponent={titleComponent} />
@@ -55,7 +52,7 @@ export const Header = ({ translate, titleComponent }) => {
       style={{
         translateY: translate,
       }}
-      className="max-w-5xl mx-auto text-center"
+      className="relative max-w-5xl mx-auto text-center mb-6 md:mb-10"
     >
       {titleComponent}
     </motion.div>
@@ -69,7 +66,7 @@ export const Card = ({ rotate, scale, children }) => {
         rotateX: rotate,
         scale,
       }}
-      className="max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
+className="relative max-w-5xl mt-6 md:mt-8 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
     >
       <div className="bg-gray-100 h-full w-full rounded-2xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-hidden p-4">
         {children}
