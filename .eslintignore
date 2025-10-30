@@ -1,0 +1,4 @@
+# ESLint ignore
+node_modules
+build
+dist
