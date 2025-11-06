@@ -15,7 +15,7 @@ export function StarsDemo() {
   const [config, setConfig] = useState(defaults);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative h-full min-h-[40vh]">
       <StarsCanvas
         transparent={config.transparent}
         maxStars={config.maxStars}
@@ -24,13 +24,14 @@ export function StarsDemo() {
         speedMultiplier={config.speedMultiplier}
         twinkleIntensity={config.twinkleIntensity}
         paused={config.paused}
+        withinContainer
         className="z-0"
       />
 
       {/* Controls overlay */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
-        <div className="w-full max-w-3xl mx-auto text-center space-y-6">
-          <DemoControls title="Controls" onReset={() => setConfig(defaults)}>
+      <div className="absolute inset-0 z-10 flex items-end justify-center px-6 pb-6">
+        <div className="w-full max-w-3xl mx-auto text-center space-y-6 pointer-events-auto">
+          <DemoControls title="Controls" onReset={() => setConfig(defaults)} className="pb-4 md:pb-6">
               <label className="flex flex-col">
                 <span className="text-blue-100/80 mb-1">Stars Count</span>
                 <input

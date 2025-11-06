@@ -6,7 +6,7 @@ interface StarBorderProps {
   className?: string;
   speed?: number;
   color?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 export const StarBorder: React.FC<StarBorderProps> = ({
@@ -16,11 +16,11 @@ export const StarBorder: React.FC<StarBorderProps> = ({
   color = 'rgba(59, 130, 246, 0.5)',
   as: Component = 'div',
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
@@ -56,7 +56,7 @@ export const StarBorder: React.FC<StarBorderProps> = ({
       />
 
       {/* Inner glow */}
-      <div className="absolute inset-[1px] rounded-3xl bg-slate-950/90 backdrop-blur-xl" />
+      <div className="absolute inset-[1px] rounded-3xl bg-[#07121f]/90 backdrop-blur-xl" />
 
       {/* Spotlight effect on hover */}
       {isHovered && (

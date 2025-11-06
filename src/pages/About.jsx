@@ -3,6 +3,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Sparkles, Target, Heart, Lightbulb } from 'lucide-react';
 import Layout from '../components/common/Layout';
 import { GradientText } from '../components/ui/animated-hero';
+import { Link } from 'react-router-dom';
+import { CtaButton } from '@/components/ui/cta-button';
+
+import { Helmet } from 'react-helmet-async';
 
 const About = () => {
   const { scrollY } = useScroll();
@@ -60,6 +64,10 @@ const About = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>DevCatalyst | About</title>
+        <meta name="description" content="About DevCatalyst: mission-driven, community-first developer collective fostering innovation." />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div className="max-w-6xl mx-auto text-center relative z-10" style={{ y: y1 }}>
@@ -188,14 +196,14 @@ const About = () => {
             {values.map((value, index) => (
               <motion.div
                 key={index}
-                className="group relative bg-slate-900/70 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+                className="group relative dc-card p-6 transition-all duration-300"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="w-16 h-16 bg-slate-800 border border-slate-700 rounded-2xl flex items-center justify-center mb-4 mx-auto"
+                className="w-16 h-16 bg-[#07121f] border border-[#14284a] rounded-2xl flex items-center justify-center mb-4 mx-auto"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -224,7 +232,7 @@ const About = () => {
       </section>
 
       {/* Our Story Section */}
-      <section className="relative py-20 px-6 bg-gradient-to-b from-transparent to-slate-950/50">
+      <section className="relative py-20 px-6 bg-gradient-to-b from-transparent to-[#060e1a]/50">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -373,6 +381,19 @@ const About = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Meet the Team CTA below the grid */}
+          <motion.div
+            className="mt-12 flex justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Link to="/team">
+              <CtaButton size="lg" variant="primary">Meet the Team</CtaButton>
+            </Link>
+          </motion.div>
         </div>
       </section>
     </Layout>

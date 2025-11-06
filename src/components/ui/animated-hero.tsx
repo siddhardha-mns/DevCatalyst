@@ -75,6 +75,7 @@ export const AnimatedHero: React.FC<AnimatedHeroProps> = ({ title, subtitle, cla
   );
 };
 
+
 // Text reveal animation component
 export const TextReveal: React.FC<{ children: string; className?: string }> = ({
   children,
@@ -108,7 +109,7 @@ export const GradientText: React.FC<{
   gradient?: string;
   className?: string;
 }> = ({ children, gradient, className = '' }) => {
-  const defaultGradient = 'from-blue-400 via-cyan-400 to-purple-400';
+  const defaultGradient = 'from-[var(--accent-start)] to-[var(--accent-end)]';
 
   return (
     <span

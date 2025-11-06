@@ -9,7 +9,7 @@
   - Added animated glass reflection shimmer
   - Dynamic background opacity based on scroll position
   - Gradient text for active nav items with glowing background
-  - Updated logo to use `/logo.png` instead of SVG
+  - Updated logo to use `/devcatalyst-logo.svg`
   - Smooth hover and tap animations with spring physics
 
 ### 2. **Modern Gradient Buttons**
@@ -152,12 +152,12 @@ Gamification features:
 - Leaderboard
 - Point system for contributions
 
-### 6. **Live Chat/Discord Integration**
-Real-time communication:
-- Embedded Discord widget
-- Live member count
-- Recent messages preview
-- Join server CTA
+### 6. **Instagram Integration**
+Social presence:
+- Link to Instagram profile
+- Recent posts highlight (optional embed)
+- Follower growth callout
+- Follow us CTA
 
 ### 7. **Blog/Resources Section**
 Educational content hub:

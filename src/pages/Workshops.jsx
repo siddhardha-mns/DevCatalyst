@@ -22,6 +22,8 @@ import Layout from '../components/common/Layout';
 import { GradientButton } from '../components/ui/gradient-button';
 import { CtaButton } from '@/components/ui/cta-button';
 
+import { Helmet } from 'react-helmet-async';
+
 const Workshops = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredWorkshop, setHoveredWorkshop] = useState(null);
@@ -147,6 +149,10 @@ const Workshops = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>DevCatalyst | Workshops</title>
+        <meta name="description" content="Interactive workshops across web, mobile, data, and AI—learn by building with DevCatalyst." />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
         <motion.div
@@ -189,7 +195,7 @@ const Workshops = () => {
 
           {/* Quick Stats */}
           <motion.div
-            className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-12"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mb-12"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
@@ -205,7 +211,7 @@ const Workshops = () => {
                 whileHover={{ scale: 1.04 }}
                 transition={{ duration: 0.15 }}
               >
-                <div className="text-2xl md:text-3xl font-bold text-cyan-300 mb-1">
+                <div className="text-2xl md:text-3xl font-bold mb-1 neon-counter">
                   {stat.number}
                 </div>
                 <div className="text-slate-400 text-sm">{stat.label}</div>
@@ -267,7 +273,7 @@ const Workshops = () => {
               {filteredWorkshops.map((workshop, index) => (
                 <motion.div
                   key={workshop.id}
-                  className={`group relative bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl overflow-hidden hover:border-slate-600 transition-all duration-300 cursor-pointer`}
+                  className={`group relative dc-card overflow-hidden transition-all duration-300 cursor-pointer`}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.06 }}

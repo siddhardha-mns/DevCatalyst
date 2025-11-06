@@ -8,6 +8,7 @@ import { StarsCanvas } from '../components/ui/stars-canvas';
 import { GradientButton } from '../components/ui/gradient-button';
 import { GradientText } from '../components/ui/animated-hero';
 import { CtaButton } from '@/components/ui/cta-button';
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +23,8 @@ const Home = () => {
     if (alreadyShown) {
       setIsLoading(false);
       setShowContent(true);
-      return;
     }
+
 
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js';
@@ -79,7 +80,9 @@ const Home = () => {
           setShowContent(true);
           try {
             sessionStorage.setItem('dc_loading_shown', '1');
-          } catch {}
+          } catch (e) {
+            void e; // ignore
+          }
         },
       });
   };
@@ -104,9 +107,13 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>DevCatalyst | Home</title>
+        <meta name="description" content="Student-led developer community: build real projects, get mentorship, and grow your career." />
+      </Helmet>
       {/* Loading Screen */}
       {isLoading && (
-        <div className="loading-screen fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden">
+        <div className="loading-screen fixed inset-0 z-[100] bg-[#060e1a] flex items-center justify-center overflow-hidden">
           {/* Stars Background for Loading */}
           <StarsCanvas
             transparent={false}
@@ -127,13 +134,15 @@ const Home = () => {
               <div className="absolute inset-0 -z-10 flex items-center justify-center">
                 <div className="w-56 h-56 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-cyan-400/25 via-blue-500/20 to-purple-600/25 blur-3xl" />
               </div>
-              <div className="w-44 h-44 md:w-64 md:h-64 mx-auto rounded-2xl ring-2 ring-white/20 shadow-[0_0_40px_rgba(34,211,238,0.25)] overflow-hidden">
-                <img
-                  src="/logo.png"
-                  alt="DevCatalyst Logo"
-                  className="w-full h-full object-contain drop-shadow-[0_0_28px_rgba(59,130,246,0.55)] saturate-150 contrast-125"
-                />
-              </div>
+              <img
+                src="/devcatalyst-logo.svg"
+                alt="DevCatalyst Logo"
+                decoding="async"
+                /* eslint-disable-next-line react/no-unknown-property */
+                fetchpriority="high"
+                className="w-44 h-44 md:w-64 md:h-64 mx-auto rounded-2xl ring-2 ring-white/20 shadow-[0_0_40px_rgba(34,211,238,0.25)]"
+                style={{ borderRadius: '1rem' }}
+              />
             </motion.div>
 
             <div className="loading-text text-5xl md:text-8xl font-bold flex relative z-10 tracking-tight">
@@ -165,7 +174,7 @@ const Home = () => {
           style={{ zIndex: 10, position: 'relative' }}
         >
           {/* Hero Section */}
-          <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+          <section className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
             <motion.div className="max-w-5xl mx-auto text-center relative z-10" style={{ y: y1 }}>
               <motion.div
                 className="mb-6"
@@ -173,7 +182,7 @@ const Home = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-slate-800/50 to-slate-900/50 border border-cyan-500/30 rounded-full text-white text-sm font-medium backdrop-blur-md shadow-lg shadow-cyan-500/10">
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#07121f]/50 to-[#060e1a]/50 border border-cyan-500/30 rounded-full text-white text-sm font-medium backdrop-blur-md shadow-lg shadow-cyan-500/10">
                   <Sparkles className="w-4 h-4 text-cyan-400" />
                   <span className="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold">
                     Student-Led Developer Community
@@ -182,20 +191,12 @@ const Home = () => {
               </motion.div>
 
               <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
+                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 group"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 1 }}
               >
-                <span
-                  className="bg-gradient-to-r from-slate-100 via-white to-slate-100 bg-clip-text text-transparent"
-                  style={{ textShadow: '0 0 40px rgba(255,255,255,0.2)' }}
-                >
-                  Build. Learn.{' '}
-                </span>
-                <GradientText gradient="from-cyan-400 via-blue-500 to-purple-500">
-                  Grow.
-                </GradientText>
+                <AnimatedHeadline />
               </motion.h1>
 
               <motion.p
@@ -258,6 +259,7 @@ const Home = () => {
           {/* Hero Scroll Demo Section */}
           <DevCatalystHeroScroll />
 
+
           {/* Features Preview */}
           <section className="relative py-20 px-6">
             <div className="max-w-6xl mx-auto">
@@ -281,7 +283,7 @@ const Home = () => {
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
-                    className="group bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:border-white/50 hover:bg-white/10 transition-all duration-300"
+                    className="group dc-card p-6 transition-all duration-300"
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -323,6 +325,46 @@ const Home = () => {
         </div>
       </Layout>
     </>
+  );
+};
+
+// Complex but performant headline animation
+const AnimatedHeadline = () => {
+  const words = [
+    { text: 'Build.', gradient: 'from-slate-100 via-white to-slate-100' },
+    { text: 'Learn.', gradient: 'from-slate-100 via-white to-slate-100' },
+    { text: 'Grow.', gradient: 'from-cyan-400 via-blue-500 to-purple-500' },
+  ];
+
+  return (
+    <span className="inline-flex flex-wrap items-baseline gap-x-3">
+      {words.map((w, wi) => (
+        <motion.span
+          key={wi}
+          className="relative inline-block will-change-transform"
+          initial={{ rotateX: -70, y: 30, opacity: 0 }}
+          animate={{ rotateX: 0, y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 120, damping: 18, delay: 0.2 + wi * 0.15 }}
+        >
+          <span
+            className={`relative bg-gradient-to-r ${w.gradient} bg-clip-text text-transparent inline-block px-1`}
+            style={{ textShadow: '0 0 40px rgba(255,255,255,0.2)' }}
+          >
+            {w.text.split('').map((ch, ci) => (
+              <motion.span
+                key={ci}
+                className="inline-block"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 140, damping: 20, delay: 0.35 + wi * 0.15 + ci * 0.02 }}
+              >
+                {ch}
+              </motion.span>
+            ))}
+          </span>
+        </motion.span>
+      ))}
+    </span>
   );
 };
 

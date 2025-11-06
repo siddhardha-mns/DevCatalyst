@@ -24,6 +24,7 @@
 - 📖 **About Us**: `/about` - Community values with glowing cards
 - 🎯 **Workshops**: `/workshops` - Interactive workshop catalog
 - 🖼️ **Gallery**: `/gallery` - Project showcase with glowing effects
+- 👥 **Team**: `/team` - Meet the people behind DevCatalyst
 - 📞 **Contact**: `/contact` - Get in touch with animated forms
 
 ---
@@ -32,6 +33,8 @@
 
 ### 🌌 Stars Canvas
 A mesmerizing animated starfield background with 1200+ orbiting stars
+
+Note: For contained demos, pass withinContainer to render the canvas inside a card instead of the full viewport.
 
 **Features:**
 - 🎨 Customizable color themes via HSL hue
@@ -47,27 +50,23 @@ A mesmerizing animated starfield background with 1200+ orbiting stars
   brightness={0.8}
   speedMultiplier={1.0}
   twinkleIntensity={20}
+  withinContainer // confines to parent card
 />
 ```
 
-### 🌟 Glowing Effect
-Interactive glowing borders that follow mouse movement
+### 🌟 Star Border
+An interactive border and spotlight effect that follows the cursor
 
 **Features:**
-- 🖱️ Mouse proximity detection
-- 🌈 Smooth gradient rotation
-- 🎯 Configurable trigger zones
+- ✨ Animated gradient border
+- 🖱️ Mouse spotlight hover
+- 🎛️ Customizable density and radius
 - 💫 Smooth motion animations
-- 🎨 Customizable colors and spread
 
 ```tsx
-<GlowingEffect
-  proximity={80}
-  spread={40}
-  borderWidth={2}
-  disabled={false}
-  glow={true}
-/>
+<StarBorder className="p-8">
+  <YourContent />
+</StarBorder>
 ```
 
 ### 🔘 Liquid Glass Button
@@ -152,25 +151,31 @@ DevCatalyst/
 ├── 📦 public/                 # Static assets
 ├── 📂 src/
 │   ├── 🧩 components/
-│   │   ├── common/            # Shared components
+│   │   ├── common/            # Shared layout/navigation
 │   │   │   ├── Layout.jsx
 │   │   │   └── Navigation.jsx
 │   │   └── ui/                # UI component library
-│   │       ├── stars-canvas.tsx      # ✨ Animated starfield
-│   │       ├── glowing-effect.tsx    # 🌟 Interactive glow
-│   │       ├── liquid-glass-button.tsx # 🔘 Glass buttons
-│   │       ├── stars-demo.tsx        # 🎮 Interactive demos
-│   │       └── glowing-effect-demo.tsx
+│   │       ├── stars-canvas.tsx          # ✨ Animated starfield (supports withinContainer)
+│   │       ├── container-scroll-animation.tsx # 📦 Scroll-driven container (demo wrapper)
+│   │       ├── gradient-button.tsx       # 🎛️ Gradient button
+│   │       ├── liquid-glass-button.tsx   # 🔘 Glass buttons
+│   │       ├── star-border.tsx           # 🌟 Interactive border
+│   │       ├── scroll-progress.tsx       # 📈 Scroll progress + to-top
+│   │       ├── modal.tsx                 # 🪟 Modal
+│   │       └── cta-button.tsx            # 🔔 CTA variant
 │   ├── 📄 pages/              # Application pages
 │   │   ├── Home.jsx           # 🏠 Homepage with loading animation
 │   │   ├── About.jsx          # 📖 About us with glowing cards
 │   │   ├── Workshops.jsx      # 🎯 Workshop catalog
 │   │   ├── Gallery.jsx        # 🖼️ Project gallery
+│   │   ├── Team.jsx           # 👥 Team page
 │   │   ├── Contact.jsx        # 📞 Contact forms
 │   │   └── Components.jsx     # 🎨 Component showcase
+│   ├── 🪝 hooks/
+│   │   └── useScrollEffects.ts # Scroll utilities
 │   ├── 🔧 lib/
 │   │   └── utils.ts           # Utility functions
-│   ├── 🎨 index.css          # Global styles
+│   ├── 🎨 index.css           # Global styles
 │   ├── ⚛️ App.jsx            # Main app component
 │   └── 🚀 main.jsx           # Application entry point
 ├── ⚙️ tailwind.config.js     # Tailwind configuration

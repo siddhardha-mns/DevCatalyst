@@ -9,7 +9,7 @@ interface DemoControlsProps {
 
 export function DemoControls({ title, onReset, className = '', children }: DemoControlsProps) {
   return (
-    <div className={`rounded-xl border border-slate-700 bg-slate-900/70 p-4 md:p-5 ${className}`}>
+    <div className={`rounded-xl border border-slate-700 bg-[#07121f]/70 p-4 md:p-5 ${className}`}>
       <div className="flex items-center justify-between gap-3 mb-3">
         {title ? <h4 className="text-sm font-semibold text-slate-200">{title}</h4> : <div />}
         {onReset && (
