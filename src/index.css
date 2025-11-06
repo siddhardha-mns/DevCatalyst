@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+  img, video, canvas, svg { max-width: 100%; height: auto; }
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
@@ -24,6 +25,29 @@
     --input: 220 13% 91%;
     --ring: 262.1 83.3% 57.8%;
     --radius: 0.5rem;
+
+    /* Accent gradient tokens */
+    --accent-start: #00C6FF; /* cyan */
+    --accent-end: #0072FF;   /* blue */
+
+    /* Futuristic neon tokens */
+    --neon-cyan: #00E6FF;
+    --neon-blue: #3B82F6;
+    --neon-purple: #A78BFA;
+    --neon-pink: #FF7AE6;
+    --energy-1: #00C6FF;
+    --energy-2: #7C3AED;
+    --depth-bg: #050608;
+
+    /* Layered greys for dark UI */
+    --dc-bg: #060e1a;
+    --dc-card: #0a1629; /* deep navy content card bg */
+    --dc-border: #14284a; /* blue-tinged borders/dividers */
+    --dc-text: #e6e6e6;
+
+    /* Cursor spotlight position */
+    --spot-x: 50%;
+    --spot-y: 50%;
 
     /* GlowingEffect variables */
     --black: #000000;
@@ -63,19 +87,21 @@
   @property --spread-x { syntax: '<percentage>'; initial-value: 150%; inherits: false; }
   @property --spread-y { syntax: '<percentage>'; initial-value: 180.06%; inherits: false; }
   @property --color-1 { syntax: '<color>'; initial-value: #000; inherits: false; }
-  @property --color-2 { syntax: '<color>'; initial-value: #08012c; inherits: false; }
-  @property --color-3 { syntax: '<color>'; initial-value: #4e1e40; inherits: false; }
-  @property --color-4 { syntax: '<color>'; initial-value: #70464e; inherits: false; }
-  @property --color-5 { syntax: '<color>'; initial-value: #88394c; inherits: false; }
+  @property --color-2 { syntax: '<color>'; initial-value: #00121f; inherits: false; }
+  @property --color-3 { syntax: '<color>'; initial-value: #002a55; inherits: false; }
+  @property --color-4 { syntax: '<color>'; initial-value: #004085; inherits: false; }
+  @property --color-5 { syntax: '<color>'; initial-value: #001733; inherits: false; }
   @property --border-angle { syntax: '<angle>'; initial-value: 20deg; inherits: true; }
-  @property --border-color-1 { syntax: '<color>'; initial-value: hsla(340, 75%, 60%, 0.2); inherits: true; }
-  @property --border-color-2 { syntax: '<color>'; initial-value: hsla(340, 75%, 40%, 0.75); inherits: true; }
+  @property --border-color-1 { syntax: '<color>'; initial-value: rgba(0, 198, 255, 0.4); inherits: true; }
+  @property --border-color-2 { syntax: '<color>'; initial-value: rgba(0, 114, 255, 0.7); inherits: true; }
   @property --stop-1 { syntax: '<percentage>'; initial-value: 37.35%; inherits: false; }
   @property --stop-2 { syntax: '<percentage>'; initial-value: 61.36%; inherits: false; }
   @property --stop-3 { syntax: '<percentage>'; initial-value: 78.42%; inherits: false; }
   @property --stop-4 { syntax: '<percentage>'; initial-value: 89.52%; inherits: false; }
   @property --stop-5 { syntax: '<percentage>'; initial-value: 100%; inherits: false; }
 }
+
+html { scroll-behavior: smooth; }
 
 * {
   margin: 0;
@@ -87,6 +113,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dc-bg);
+  color: var(--dc-text);
 }
 
 /* Ensure glowing effects are visible */
@@ -98,7 +126,168 @@ body {
   will-change: opacity, background;
 }
 
+/* Hide horizontal scrollbar for overflow containers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Global link hover to accent */
+a { transition: color 200ms ease; }
+a:hover { color: var(--accent-start); }
+
+/* Accent utilities */
+@layer utilities {
+  .text-gradient-accent {
+    background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-accent { background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); }
+  .accent-heading { color: var(--accent-start); }
+
+  /* Futuristic background overlays */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 48px 48px, 48px 48px;
+    background-position: center center;
+  }
+  .bg-scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  }
+  .bg-grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 2px 2px;
+    mix-blend-mode: overlay;
+  }
+  .cursor-spotlight {
+    background: radial-gradient(600px circle at var(--spot-x) var(--spot-y), rgba(0,198,255,0.12), transparent 40%);
+  }
+
+  /* Holographic card */
+  .holo-card {
+    background: linear-gradient(180deg, rgba(17,24,39,0.4), rgba(2,6,23,0.35));
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px);
+  }
+  .holo-edge { position: relative; }
+  .holo-edge::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: inherit;
+    padding: 1px; pointer-events: none;
+    background: conic-gradient(from 180deg at 50% 50%, rgba(0,198,255,0.6), rgba(124,58,237,0.4), rgba(0,198,255,0.6));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0.7;
+  }
+
+  /* Neon effects */
+  .neon-icon { filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.6)); }
+  .neon-heading { text-shadow: 0 0 20px rgba(0,198,255,0.35), 0 0 40px rgba(124,58,237,0.25); }
+  .neon-counter {
+    animation: counterGlow 3s ease-in-out infinite;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  @keyframes counterGlow {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(0,198,255,0.35)); }
+    50% { filter: drop-shadow(0 0 12px rgba(124,58,237,0.45)); }
+  }
+
+  /* Animated energy divider */
+  .energy-divider { position: relative; height: 2px; }
+  .energy-divider::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, var(--energy-1), var(--energy-2), transparent);
+    background-size: 200% 100%;
+    animation: energyMove 4s linear infinite;
+    filter: blur(0.3px);
+  }
+  @keyframes energyMove { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+
+  /* Magnetic buttons (subtle tilt/scale) */
+  .magnetic { transition: transform 200ms ease, filter 200ms ease; }
+  .magnetic:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.05); }
+
+  /* Overlay opening fade (CSS-only) */
+  .ol { opacity: 0; transition: opacity 800ms ease; }
+  .dc-opened .ol-grid { opacity: 0.18; }
+  .dc-opened .ol-scan { opacity: 0.22; }
+  .dc-opened .ol-spot { opacity: 0.10; }
+
+  /* Loaders */
+  .orbit-loader { position: relative; width: 40px; height: 40px; }
+  .orbit-loader::before, .orbit-loader::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid rgba(59,130,246,0.35); border-top-color: var(--neon-cyan);
+    animation: spin 1.2s linear infinite;
+  }
+  .orbit-loader::after { inset: 6px; border-left-color: var(--neon-purple); animation-duration: 0.9s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* One-time CTA shine trigger */
+  .once-shine .shine-sweep {
+    opacity: 1 !important;
+    animation: shineOnce 700ms ease forwards;
+  }
+  .once-shine {
+    animation: ctaGlow 700ms ease both;
+  }
+  @keyframes shineOnce {
+    0% { transform: translateX(0); opacity: 0.0; }
+    10% { opacity: 0.6; }
+    100% { transform: translateX(250%); opacity: 0; }
+  }
+  @keyframes ctaGlow {
+    0% { box-shadow: 0 0 0 rgba(0,0,0,0); }
+    40% { box-shadow: 0 0 24px rgba(0,114,255,0.35), 0 0 36px rgba(0,198,255,0.25); }
+    100% { box-shadow: 0 0 0 rgba(0,0,0,0); }
+  }
+
+  /* Safe-area and touch helpers (mobile only) */
+  @supports (padding: max(0px)) {
+    .safe-bottom { padding-bottom: max(0px, env(safe-area-inset-bottom)); }
+    .safe-right { padding-right: max(0px, env(safe-area-inset-right)); }
+  }
+  @media (max-width: 640px) {
+    .touch-target { min-width: 48px; min-height: 48px; }
+    .bg-grid { opacity: 0.15 !important; }
+    .bg-scanlines { opacity: 0.2 !important; }
+    .cursor-spotlight { background: radial-gradient(420px circle at var(--spot-x) var(--spot-y), rgba(0,198,255,0.08), transparent 40%); }
+  }
+}
+
+/* Reusable dark cards and dividers */
 @layer components {
+  .dc-card {
+    background-color: var(--dc-card);
+    border: 1px solid var(--dc-border);
+    border-radius: 1.25rem; /* ~rounded-3xl */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .dc-card:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 198, 255, 0.25);
+    border-color: color-mix(in oklab, var(--dc-border) 65%, var(--accent-start));
+  }
+  .dc-divider { border-color: var(--dc-border); }
+  hr { border-color: var(--dc-border); opacity: 0.8; }
+
   .gradient-button {
     @apply relative appearance-none cursor-pointer;
     background: radial-gradient(
@@ -147,22 +336,22 @@ body {
 
   .gradient-button:hover {
     --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #c96287;
-    --color-2: #c66c64;
-    --color-3: #cc7d23;
-    --color-4: #37140a;
-    --color-5: #000;
-    --border-angle: 190deg;
-    --border-color-1: hsla(340, 78%, 90%, 0.1);
-    --border-color-2: hsla(340, 75%, 90%, 0.6);
+    --pos-y: 85%;
+    --spread-x: 120%;
+    --spread-y: 110%;
+    --color-1: #002a55;
+    --color-2: #004085;
+    --color-3: #0072ff;
+    --color-4: #00c6ff;
+    --color-5: #00121f;
+    --border-angle: 200deg;
+    --border-color-1: rgba(0, 198, 255, 0.35);
+    --border-color-2: rgba(0, 114, 255, 0.65);
     --stop-1: 0%;
-    --stop-2: 8.8%;
-    --stop-3: 21.44%;
-    --stop-4: 71.34%;
-    --stop-5: 85.76%;
+    --stop-2: 12%;
+    --stop-3: 36%;
+    --stop-4: 72%;
+    --stop-5: 92%;
   }
 
   .gradient-button-variant {
@@ -195,4 +384,3 @@ body {
     --border-color-2: hsla(320, 50%, 90%, 0.75);
   }
 }
-

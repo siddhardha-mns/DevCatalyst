@@ -16,7 +16,7 @@
 - **Professional Border**: `rgba(255, 255, 255, 0.18)` with multiple shadow layers
 
 #### Logo Improvements:
-- **Changed to `logo.png`** throughout (navbar + loading screen)
+- **Changed to `devcatalyst-logo.svg`** throughout (navbar + loading screen)
 - **Enhanced Container**: Rounded square with gradient background
 - **Glass Effect**: Linear gradient `from-white/15 to-white/05`
 - **Hover Animation**: Wiggle effect with color glow
@@ -31,21 +31,15 @@
 
 ---
 
-### 2. **Stunning Space Background**
-**Location**: `src/components/ui/space-background.tsx`
+### 2. **Enhanced Starfield Background"
+**Location**: StarsCanvas layers integrated in `src/components/common/Layout.jsx`
 
 #### Features Implemented:
-✅ **Pure Black Background** (`#000000`)
-✅ **White Twinkling Stars** (300 stars with varying sizes)
-✅ **Planets with Rings** (3 planets with glowing effects)
-✅ **Shooting Meteors** (Occasional diagonal meteor showers)
-✅ **Nebula Effects** (Animated gradient clouds using Framer Motion)
-✅ **Performance Optimized** (Canvas-based with requestAnimationFrame)
+✅ Pure black backdrop with white twinkling stars
+✅ Layered deep/near starfields on desktop for depth
+✅ Occasional shooting meteors
+✅ Performance-optimized canvas with requestAnimationFrame
 
-#### Planets:
-1. **Indigo Planet** (Top-left) - 60px radius with rings
-2. **Purple Planet** (Bottom-right) - 40px radius
-3. **Cyan Planet** (Bottom-left) - 25px radius
 
 #### Stars:
 - Size range: 0.5px - 2.5px
@@ -59,11 +53,6 @@
 - White to blue gradient
 - Fade out naturally
 
-#### Nebula Clouds:
-- 3 animated gradient orbs
-- Blur: 60px - 100px
-- Colors: Indigo, Purple, Cyan
-- Breathing animation (10-20s cycles)
 
 ---
 
@@ -77,7 +66,7 @@ Changed from deep blue to **pure black** throughout:
 ---
 
 ### 4. **Logo Updates**
-**ALL instances now use `/logo.png`:**
+**ALL instances now use `/devcatalyst-logo.svg`:**
 - ✅ Navigation bar
 - ✅ Loading screen animation
 - ✅ Enhanced with glassmorphic containers
@@ -97,23 +86,19 @@ Cleaned up all pages:
 
 ## 🎯 Component Implementations
 
-### Space Background Details
+### Starfield Background Details
 
 ```tsx
-<SpaceBackground className="z-0" />
+// Rendered automatically by Layout via StarsCanvas layers
+<Layout stars={{ maxStars: 800, hue: 0, brightness: 1, speedMultiplier: 0.8, twinkleIntensity: 25 }}>
+  {/* Your content */}
+</Layout>
 ```
 
-**Classes:**
-- **Star**: Twinkling white stars with size variation
-- **Meteor**: Shooting stars with gradient trails
-- **Planet**: Glowing orbs with optional ring systems
-- **Nebula**: CSS-based animated gradient clouds
-
-**Performance:**
-- Optimized canvas rendering
-- Efficient particle system
-- Responsive to window resize
-- ~60 FPS on modern hardware
+**Notes:**
+- Deep and near star layers on desktop for parallax depth
+- Meteors appear occasionally for subtle motion
+- Respects reduced-motion and viewport visibility for performance
 
 ---
 
@@ -125,16 +110,8 @@ Already integrated globally - appears on all pages with:
 - Active tab highlighting
 - Logo hover effects
 
-### 2. Space Background
-Automatically loads in Layout component:
-```jsx
-import { SpaceBackground } from '../components/ui/space-background';
-
-<div className="min-h-screen bg-black">
-  <SpaceBackground className="z-0" />
-  {/* Your content */}
-</div>
-```
+### 2. Starfield Background (automatic)
+Rendered by the global `Layout` component via StarsCanvas. You can tweak density, hue, brightness, speed, and twinkle via the `stars` prop on `Layout`.
 
 ### 3. Gradient Buttons
 ```tsx
@@ -165,9 +142,7 @@ import { GradientButton } from './ui/gradient-button';
 ### After:
 - ✨ Pure black space background
 - ✨ White twinkling stars
-- ✨ Planets with glowing rings
 - ✨ Shooting meteors
-- ✨ Nebula clouds
 - ✨ Ultra-realistic glass navbar
 - ✨ Modern gradient buttons
 - ✨ Professional Lucide icons
@@ -186,7 +161,6 @@ import { GradientButton } from './ui/gradient-button';
 ### 2. **Space Theme**
 - Pure black for contrast
 - White stars for visibility
-- Colorful planets for interest
 - Dynamic meteors for life
 
 ### 3. **Modern UI**
@@ -208,7 +182,6 @@ import { GradientButton } from './ui/gradient-button';
 ### Files Created:
 ```
 src/components/ui/
-├── space-background.tsx      # New space background
 ├── gradient-button.tsx        # Gradient buttons
 ├── star-border.tsx           # Star border effect
 ├── animated-hero.tsx         # Hero text animations
@@ -223,7 +196,7 @@ src/hooks/
 ```
 src/components/common/
 ├── Navigation.jsx            # Enhanced glassmorphism
-└── Layout.jsx               # Space background integration
+└── Layout.jsx               # Starfield background integration
 
 src/pages/
 ├── Home.jsx                 # Logo fix + cleanup
@@ -242,7 +215,7 @@ src/pages/
    - Industry-standard design
 
 2. **Engaging Experience**
-   - Animated planets and meteors
+   - Occasional meteors
    - Twinkling stars
    - Smooth transitions
    - Hover effects
@@ -265,7 +238,7 @@ src/pages/
 
 ### Immediate:
 1. ✅ Test in browser - `npm run dev`
-2. ✅ Verify logo.png displays correctly
+2. ✅ Verify devcatalyst-logo.svg displays correctly
 3. ✅ Check all pages for consistency
 4. ✅ Test on mobile devices
 
@@ -286,23 +259,18 @@ src/pages/
 
 ## 🎨 Customization Options
 
-### Adjust Space Background:
+### Adjust Starfield Settings:
 ```tsx
-// In space-background.tsx
-
-// More/fewer stars
-for (let i = 0; i < 500; i++) { // Change 300 to any number
-  stars.push(new Star());
-}
-
-// Meteor frequency
-if (meteorSpawnTimer > 120) { // Lower = more frequent
-
-// Planet colors
-new Planet(x, y, radius, 
-  'rgba(255, 100, 100, 0.3)',  // Custom color
-  'rgba(255, 100, 100, 0.4)'   // Custom glow
-)
+// In Layout usage, tweak the stars prop:
+<Layout stars={{
+  maxStars: 600, // density
+  hue: 0,       // keep twinkling stars white
+  brightness: 1,
+  speedMultiplier: 0.8,
+  twinkleIntensity: 25,
+}}>
+  ...
+</Layout>
 ```
 
 ### Adjust Navbar Glass:
@@ -318,7 +286,7 @@ border: '2px solid rgba(255, 255, 255, 0.3)', // Thicker border
 ## 📱 Mobile Optimization
 
 All components are mobile-responsive:
-- Space background scales to viewport
+- Starfield scales to viewport
 - Navbar adjusts padding and sizing
 - Buttons scale appropriately
 - Text remains readable
@@ -329,27 +297,33 @@ All components are mobile-responsive:
 ## 🐛 Troubleshooting
 
 ### Issue: Logo not showing
-**Fix**: Ensure `logo.png` is in `/public` directory
+**Fix**: Ensure `devcatalyst-logo.svg` is in `/public` directory
 
-### Issue: Space background not visible
-**Fix**: Check z-index layers - content should be `z-10` or higher
+### Issue: Starfield not visible
+**Fix**: Ensure the main content has a higher z-index (e.g., `z-10`) than the canvas layers.
 
 ### Issue: Performance issues
-**Fix**: Reduce star count or meteor frequency in `space-background.tsx`
+**Fix**: Lower `maxStars` or `twinkleIntensity` via the `stars` prop on `Layout`, or rely on reduced-motion.
 
 ### Issue: Navbar too transparent
 **Fix**: Increase background opacity in Navigation.jsx
 
 ---
 
+## 🔧 Recent Polish (Components Page)
+
+- Stars Canvas demo now renders within its container (no overlay on modal header).
+- Added padding to controls panel; demo remains readable.
+- Floating components card and cursor spotlight are disabled on /components.
+- TubeLight demo aligned to cyan accent and contained in a dc-card.
+- Components modal content is non-selectable for consistency.
+
 ## 🎉 Final Checklist
 
 - [x] Glassmorphism navbar with realistic effects
-- [x] Logo changed to logo.png everywhere
+- [x] Logo changed to devcatalyst-logo.svg everywhere
 - [x] Black background with white stars
-- [x] Planets with glowing rings
-- [x] Shooting meteors
-- [x] Nebula clouds
+- [x] Occasional meteors
 - [x] Gradient buttons throughout
 - [x] Modern Lucide icons
 - [x] Smooth animations

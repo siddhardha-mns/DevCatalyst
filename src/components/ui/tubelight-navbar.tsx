@@ -1,14 +1,6 @@
 'use client';
 
-import React from 'react';
-import TubeLightNavigation from '@/components/common/TubeLightNavigation';
-
-// Deprecated: This wrapper ensures any old imports render the new navbar
-export function TubeLightNavBar() {
-  return <TubeLightNavigation demoMode />;
-}
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { LucideIcon } from 'lucide-react';
@@ -37,7 +29,7 @@ export function TubeLightNavBar({
 }: TubeLightNavBarProps) {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
-  const [isMobile, setIsMobile] = useState(false);
+  const [_isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,7 +69,7 @@ export function TubeLightNavBar({
               className={cn(
                 'relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300',
                 'text-white/80 hover:text-white',
-                isActive && 'text-white',
+                isActive && 'text-gradient-accent',
               )}
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
@@ -99,15 +91,15 @@ export function TubeLightNavBar({
                   <div className="absolute inset-0 bg-white/10 rounded-full" />
 
                   {/* Tube light effect on top */}
-                  <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-blue-400 rounded-t-full shadow-lg">
+                  <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-cyan-400 rounded-t-full shadow-lg">
                     {/* Outer glow */}
-                    <div className="absolute w-12 sm:w-16 h-6 sm:h-8 bg-blue-400/30 rounded-full blur-lg -top-2 sm:-top-3 -left-2" />
+                    <div className="absolute w-12 sm:w-16 h-6 sm:h-8 bg-cyan-400/30 rounded-full blur-lg -top-2 sm:-top-3 -left-2" />
                     {/* Inner glow */}
-                    <div className="absolute w-8 sm:w-12 h-4 sm:h-6 bg-blue-400/40 rounded-full blur-md -top-1 sm:-top-2 left-0" />
+                    <div className="absolute w-8 sm:w-12 h-4 sm:h-6 bg-cyan-400/40 rounded-full blur-md -top-1 sm:-top-2 left-0" />
                     {/* Core light */}
-                    <div className="absolute w-6 sm:w-8 h-3 sm:h-4 bg-blue-400/60 rounded-full blur-sm -top-0.5 sm:-top-1 left-1 sm:left-2" />
+                    <div className="absolute w-6 sm:w-8 h-3 sm:h-4 bg-cyan-400/60 rounded-full blur-sm -top-0.5 sm:-top-1 left-1 sm:left-2" />
                     {/* Bright center */}
-                    <div className="absolute w-3 sm:w-4 h-1.5 sm:h-2 bg-blue-300/80 rounded-full top-0 left-2.5 sm:left-4" />
+                    <div className="absolute w-3 sm:w-4 h-1.5 sm:h-2 bg-cyan-200/80 rounded-full top-0 left-2.5 sm:left-4" />
                   </div>
                 </motion.div>
               )}
@@ -124,7 +116,7 @@ export function TubeLightNavBar({
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.6, type: 'spring' }}
             >
-              <img src={logoSrc} alt={logoAlt} className="w-full h-full object-contain" />
+              <img src={logoSrc} alt={logoAlt} className="w-full h-full object-contain rounded-lg" style={{ borderRadius: '0.5rem' }} />
             </motion.div>
           </Link>
         )}
@@ -142,7 +134,7 @@ export function TubeLightNavBar({
               className={cn(
                 'relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300',
                 'text-white/80 hover:text-white',
-                isActive && 'text-white',
+                isActive && 'text-gradient-accent',
               )}
             >
               <span className="hidden sm:inline relative z-10">{item.name}</span>
@@ -164,15 +156,15 @@ export function TubeLightNavBar({
                   <div className="absolute inset-0 bg-white/10 rounded-full" />
 
                   {/* Tube light effect on top */}
-                  <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-blue-400 rounded-t-full shadow-lg">
+                  <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-1 sm:h-1.5 bg-cyan-400 rounded-t-full shadow-lg">
                     {/* Outer glow */}
-                    <div className="absolute w-12 sm:w-16 h-6 sm:h-8 bg-blue-400/30 rounded-full blur-lg -top-2 sm:-top-3 -left-2" />
+                    <div className="absolute w-12 sm:w-16 h-6 sm:h-8 bg-cyan-400/30 rounded-full blur-lg -top-2 sm:-top-3 -left-2" />
                     {/* Inner glow */}
-                    <div className="absolute w-8 sm:w-12 h-4 sm:h-6 bg-blue-400/40 rounded-full blur-md -top-1 sm:-top-2 left-0" />
+                    <div className="absolute w-8 sm:w-12 h-4 sm:h-6 bg-cyan-400/40 rounded-full blur-md -top-1 sm:-top-2 left-0" />
                     {/* Core light */}
-                    <div className="absolute w-6 sm:w-8 h-3 sm:h-4 bg-blue-400/60 rounded-full blur-sm -top-0.5 sm:-top-1 left-1 sm:left-2" />
+                    <div className="absolute w-6 sm:w-8 h-3 sm:h-4 bg-cyan-400/60 rounded-full blur-sm -top-0.5 sm:-top-1 left-1 sm:left-2" />
                     {/* Bright center */}
-                    <div className="absolute w-3 sm:w-4 h-1.5 sm:h-2 bg-blue-300/80 rounded-full top-0 left-2.5 sm:left-4" />
+                    <div className="absolute w-3 sm:w-4 h-1.5 sm:h-2 bg-cyan-200/80 rounded-full top-0 left-2.5 sm:left-4" />
                   </div>
                 </motion.div>
               )}

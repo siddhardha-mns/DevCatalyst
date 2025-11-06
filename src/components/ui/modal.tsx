@@ -6,9 +6,10 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  nonSelectable?: boolean;
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, nonSelectable = false }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const lastFocused = useRef<Element | null>(null);
@@ -17,7 +18,6 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     if (!isOpen) return;
     lastFocused.current = document.activeElement;
 
-    const overlay = overlayRef.current!;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'Tab') {
@@ -63,20 +63,24 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     >
       <div
         ref={contentRef}
-        className="relative w-full max-w-[1000px] rounded-2xl border border-slate-700 bg-slate-900 text-slate-100 shadow-xl"
+        className={`relative w-full max-w-[1000px] rounded-2xl border border-white/15 bg-[#07121f]/70 text-slate-100 shadow-xl backdrop-blur-xl holo-card holo-edge overflow-hidden ${nonSelectable ? 'select-none' : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
-          <h3 className="text-base font-semibold">{title}</h3>
+        {/* hologram scanline */}
+        <div className="pointer-events-none absolute inset-0 bg-scanlines opacity-20 sm:opacity-30" />
+        {/* edge shimmer */}
+        <div className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 40px rgba(0,198,255,0.08)' }} />
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+          <h3 className="text-base font-semibold neon-heading">{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center rounded-md px-3 py-1.5 text-sm bg-slate-800 hover:bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="inline-flex items-center rounded-md px-3 py-1.5 text-sm bg-slate-800/70 hover:bg-slate-700/80 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400 magnetic"
           >
             Close
           </button>
         </div>
-        <div className="p-3 md:p-6">{children}</div>
+        <div className="p-3 md:p-6 relative z-10">{children}</div>
       </div>
     </div>
   );

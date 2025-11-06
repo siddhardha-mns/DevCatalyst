@@ -1,13 +1,50 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useScrollProgress } from '../../hooks/useScrollEffects';
 
-export const ScrollProgress: React.FC = () => {
-  const scrollProgress = useScrollProgress();
+type ScrollProgressProps = {
+  targetRef?: React.RefObject<HTMLElement>;
+  withinContainer?: boolean; // If true, render a sticky bar inside the container instead of page-top fixed
+};
+
+const useElementScrollProgress = (targetRef?: React.RefObject<HTMLElement>) => {
+  const [progress, setProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const el = targetRef?.current;
+
+    const update = () => {
+      if (el) {
+        const scrollTop = el.scrollTop;
+        const max = el.scrollHeight - el.clientHeight;
+        setProgress(max > 0 ? (scrollTop / max) * 100 : 0);
+      } else {
+        const scrollPx = document.documentElement.scrollTop;
+        const winHeightPx =
+          document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        setProgress(winHeightPx > 0 ? (scrollPx / winHeightPx) * 100 : 0);
+      }
+    };
+
+    const target: Window | HTMLElement = (el ?? window) as Window | HTMLElement;
+    const onScroll = () => update();
+    target.addEventListener('scroll', onScroll, { passive: true } as AddEventListenerOptions);
+    update();
+    return () => target.removeEventListener('scroll', onScroll);
+  }, [targetRef]);
+
+  return progress;
+};
+
+export const ScrollProgress: React.FC<ScrollProgressProps> = ({ targetRef, withinContainer }) => {
+  const scrollProgress = useElementScrollProgress(targetRef);
+
+  const baseClasses = withinContainer
+    ? 'sticky top-0 left-0 right-0 h-1 z-10'
+    : 'fixed top-0 left-0 right-0 h-1 z-50';
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 z-50 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left"
+      className={`${baseClasses} bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left`}
       style={{
         scaleX: scrollProgress / 100,
         transformOrigin: '0%',
@@ -21,9 +58,12 @@ export const ScrollProgress: React.FC = () => {
   );
 };
 
-// Scroll to top button
-export const ScrollToTop: React.FC = () => {
-  const scrollProgress = useScrollProgress();
+// Scroll to top button (works with page or container)
+export const ScrollToTop: React.FC<{ targetRef?: React.RefObject<HTMLElement>; withinContainer?: boolean }> = ({
+  targetRef,
+  withinContainer,
+}) => {
+  const scrollProgress = useElementScrollProgress(targetRef);
   const [isVisible, setIsVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -31,18 +71,24 @@ export const ScrollToTop: React.FC = () => {
   }, [scrollProgress]);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    const el = targetRef?.current;
+    if (el) {
+      el.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   if (!isVisible) return null;
 
+  const btnClasses = withinContainer
+    ? 'sticky bottom-6 ml-auto mr-6 z-20'
+    : 'fixed bottom-8 right-8 z-40';
+
   return (
     <motion.button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-40 w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-blue-500/50 flex items-center justify-center backdrop-blur-sm border border-white/20"
+      className={`${btnClasses} w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-blue-500/50 flex items-center justify-center backdrop-blur-sm border border-white/20`}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0 }}

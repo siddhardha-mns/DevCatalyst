@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ContainerScroll } from './ui/container-scroll-animation';
 
 export function DevCatalystHeroScroll() {

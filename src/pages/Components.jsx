@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Code, Sparkles, Mouse, Zap, Eye, Play, Navigation as NavigationIcon } from 'lucide-react';
 import Layout from '../components/common/Layout';
-import { StarsCanvas } from '../components/ui/stars-canvas';
 import { StarsDemo } from '../components/ui/stars-demo';
 import { TubeLightNavBarDemo } from '../components/ui/tubelight-navbar-demo';
 import { LiquidButton } from '../components/ui/liquid-glass-button';
 import { Modal } from '@/components/ui/modal';
+import { CtaButton } from '@/components/ui/cta-button';
 import { GradientButton } from '@/components/ui/gradient-button';
+import { ScrollProgress, ScrollToTop } from '@/components/ui/scroll-progress';
+import { StarBorder } from '@/components/ui/star-border';
+import { Helmet } from 'react-helmet-async';
 
 const Components = () => {
   const [selectedDemo, setSelectedDemo] = useState(null);
@@ -81,26 +84,65 @@ const Components = () => {
       color: 'from-slate-900 to-slate-800',
       icon: <NavigationIcon className="w-12 h-12 text-cyan-300" />,
     },
+    {
+      id: 'gradient-button',
+      name: 'Gradient Button',
+      category: 'buttons',
+      description: 'Dynamic gradient button with animated border and hover sweep',
+      features: ['CSS properties', 'Animated border', 'Hover sweep', 'Accessible'],
+      demo: 'gradient-button',
+      color: 'from-slate-900 to-slate-800',
+      icon: <Zap className="w-12 h-12 text-cyan-300" />,
+    },
+    {
+      id: 'star-border',
+      name: 'Star Border',
+      category: 'interactive',
+      description: 'Animated border and spotlight effect that follows the cursor',
+      features: ['Animated border', 'Spotlight hover', 'Particle stars', 'Customizable'],
+      demo: 'star-border',
+      color: 'from-slate-900 to-slate-800',
+      icon: <Sparkles className="w-12 h-12 text-cyan-300" />,
+    },
+    {
+      id: 'scroll-progress',
+      name: 'Scroll Progress',
+      category: 'navigation',
+      description: 'Container-scoped scroll progress bar and scroll-to-top helper',
+      features: ['Container scoped', 'Progress bar', 'Scroll to top', 'Smooth animations'],
+      demo: 'scroll-progress',
+      color: 'from-slate-900 to-slate-800',
+      icon: <NavigationIcon className="w-12 h-12 text-cyan-300" />,
+    },
   ];
 
   const demoComponents = {
-    'stars-demo': <StarsDemo />,
+    'stars-demo': <StarsDemoWithText />,
     'button-demo': <ButtonDemo />,
-    'tubelight-demo': <TubeLightNavBarDemo />,
+    'tubelight-demo': <TubeLightNavBarWithText />,
+    'gradient-button': <GradientButtonDemo />,
+    'star-border': <StarBorderDemo />,
+    'scroll-progress': <ScrollProgressDemo />,
   };
 
+  React.useEffect(() => {
+    const handler = (e) => {
+      const section = document.getElementById('components-grid');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Optionally open a default demo when requested in the future
+      // if (e?.detail?.demo && demoComponents[e.detail.demo]) setSelectedDemo(e.detail.demo);
+    };
+    window.addEventListener('dc_open_components', handler);
+    return () => window.removeEventListener('dc_open_components', handler);
+  }, []);
+
   return (
-    <Layout>
-      {/* Stars Background */}
-      <StarsCanvas
-        transparent={false}
-        maxStars={400}
-        hue={240}
-        brightness={0.4}
-        speedMultiplier={0.5}
-        twinkleIntensity={40}
-        className="z-0"
-      />
+    <Layout stars={{ transparent: false, maxStars: 400, hue: 240, brightness: 0.4, speedMultiplier: 0.5, twinkleIntensity: 40 }}>
+      <div className="select-none">
+      <Helmet>
+        <title>DevCatalyst | Components</title>
+        <meta name="description" content="Browse DevCatalyst’s React components: stars background, liquid buttons, and animated navigation." />
+      </Helmet>
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -171,7 +213,7 @@ const Components = () => {
       </section>
 
       {/* Components Grid */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-20 px-6" id="components-grid">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -190,14 +232,14 @@ const Components = () => {
                 key={component.id}
                 role="button"
                 tabIndex={0}
-                className="group relative bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl overflow-hidden hover:border-slate-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                className="group relative dc-card overflow-hidden hover:border-slate-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 whileHover={{ y: -4 }}
                 viewport={{ once: true }}
-                onClick={() => setSelectedDemo(component.demo)}
-                onKeyDown={(e) => e.key === 'Enter' && setSelectedDemo(component.demo)}
+onClick={() => { setSelectedDemo(component.demo); }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { setSelectedDemo(component.demo); } }}
               >
 
                 {/* Component Header */}
@@ -205,11 +247,11 @@ const Components = () => {
                   className={`h-40 bg-gradient-to-r ${component.color} relative overflow-hidden flex items-center justify-center`}
                 >
                   <motion.div
-                    className=""
+                    className="flex items-center justify-center leading-none"
                     whileHover={{ scale: 1.06 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {component.icon}
+                    <span className="block">{component.icon}</span>
                   </motion.div>
 
                   {/* Animated background pattern */}
@@ -258,8 +300,10 @@ const Components = () => {
 
                   {/* Demo Button */}
                   <div className="mt-2">
-                    <GradientButton
-                      className="w-full min-h-[48px]"
+                    <CtaButton
+                      className="w-full"
+                      size="md"
+                      variant="primary"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedDemo(component.demo);
@@ -267,7 +311,7 @@ const Components = () => {
                     >
                       <Play className="w-4 h-4 mr-2 flex-shrink-0" aria-hidden="true" />
                       <span>View Demo</span>
-                    </GradientButton>
+                    </CtaButton>
                   </div>
                 </div>
 
@@ -315,9 +359,10 @@ const Components = () => {
       </section>
 
       {/* Full Screen Demo Modal */}
-      <Modal isOpen={!!selectedDemo} onClose={() => setSelectedDemo(null)} title="Component Demo">
+      <Modal isOpen={!!selectedDemo} onClose={() => setSelectedDemo(null)} title="Component Demo" nonSelectable>
         {selectedDemo && demoComponents[selectedDemo]}
       </Modal>
+      </div>
     </Layout>
   );
 };
@@ -337,8 +382,8 @@ const ButtonDemo = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-4xl mx-auto text-center space-y-12">
+    <div className="relative min-h-[60vh] p-6">
+      <div className="max-w-4xl mx-auto text-center space-y-12 dc-card p-8">
         <h1 className="text-5xl font-bold text-white mb-4">Liquid Glass Buttons</h1>
         <p className="text-slate-300 max-w-2xl mx-auto">
           A small showcase of our liquid glass button variants and states. The examples below help
@@ -399,6 +444,86 @@ const ButtonDemo = () => {
               With Icon
             </LiquidButton>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Additional demo wrappers
+const StarsDemoWithText = () => (
+  <div className="relative min-h-[70vh] p-6">
+    <div className="max-w-5xl mx-auto space-y-4">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold">Stars Canvas</h2>
+        <p className="text-slate-300 mt-2">Interactive starfield built on Canvas. Tweak count, hue, speed, and brightness to learn animation loops and gradients.</p>
+      </div>
+      <div className="dc-card p-0 overflow-hidden h-[50vh]">
+        <StarsDemo />
+      </div>
+    </div>
+  </div>
+);
+
+const TubeLightNavBarWithText = () => (
+  <div className="p-6">
+    <div className="max-w-5xl mx-auto space-y-4">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold">TubeLight Navigation</h2>
+        <p className="text-slate-300 mt-2">A playful nav where a glowing indicator follows your selection. Great for teaching layout, transforms, and motion.</p>
+      </div>
+      <div className="dc-card p-6">
+        <TubeLightNavBarDemo />
+      </div>
+    </div>
+  </div>
+);
+
+const GradientButtonDemo = () => (
+  <div className="p-8 space-y-6">
+    <div className="text-center">
+      <h2 className="text-3xl font-bold">Gradient Button</h2>
+      <p className="text-slate-300 mt-2">CSS-powered dynamic gradient with animated border and shine sweep. Useful to learn custom properties and stateful hover effects.</p>
+    </div>
+    <div className="flex flex-wrap justify-center gap-4">
+      <GradientButton>Default</GradientButton>
+      <GradientButton variant="variant">Variant</GradientButton>
+      <CtaButton variant="primary">CTA Style</CtaButton>
+    </div>
+  </div>
+);
+
+const StarBorderDemo = () => (
+  <div className="min-h-[60vh] grid md:grid-cols-2 gap-6 p-6">
+    {[1,2].map((i) => (
+      <StarBorder key={i} className="p-6">
+        <h3 className="text-xl font-semibold mb-2">Card {i}</h3>
+        <p className="text-slate-300">Hover to see the animated border and spotlight.</p>
+      </StarBorder>
+    ))}
+  </div>
+);
+
+const ScrollProgressDemo = () => {
+  const containerRef = React.useRef(null);
+  return (
+    <div ref={containerRef} className="relative h-[70dvh] sm:h-[70vh] overflow-y-auto border border-slate-800 rounded-xl">
+      <div className="sticky top-0 z-20">
+        <ScrollProgress targetRef={containerRef} withinContainer />
+      </div>
+      <div className="p-6 space-y-4">
+        <div className="text-center mb-4">
+          <h2 className="text-2xl font-semibold">Container Scroll Progress</h2>
+          <p className="text-slate-300 mt-1">This progress bar tracks scroll within this card, not the whole page.</p>
+        </div>
+        {Array.from({ length: 30 }).map((_, i) => (
+          <p key={i} className="text-slate-300">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+          </p>
+        ))}
+        <div className="h-20" />
+        <div className="flex">
+          <ScrollToTop targetRef={containerRef} withinContainer />
         </div>
       </div>
     </div>

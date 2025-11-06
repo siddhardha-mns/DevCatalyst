@@ -5,9 +5,9 @@ import {
   MessageSquare,
   Phone,
   MapPin,
-  Github,
   Twitter,
   Linkedin,
+  Instagram,
   Send,
   CheckCircle,
   MessageCircle,
@@ -15,6 +15,8 @@ import {
 import Layout from '../components/common/Layout';
 import { GradientText } from '../components/ui/animated-hero';
 import { GradientButton } from '../components/ui/gradient-button';
+
+import { Helmet } from 'react-helmet-async';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +27,7 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     setFormData({
@@ -36,18 +39,26 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    // Reset form after showing success
-    setTimeout(() => {
-      setIsSubmitted(false);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || 'Submission failed');
+      }
+      setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactMethods = [
@@ -57,7 +68,7 @@ const Contact = () => {
       description: 'Get in touch via email',
       contact: 'hello@devcatalyst.dev',
       action: 'mailto:hello@devcatalyst.dev',
-      color: 'from-slate-900 to-slate-800',
+      color: 'from-[#07121f] to-[#0a1629]',
     },
     {
       icon: <MessageSquare className="w-6 h-6" />,
@@ -65,7 +76,7 @@ const Contact = () => {
       description: 'Chat with our team',
       contact: 'Available 24/7',
       action: '#',
-      color: 'from-slate-900 to-slate-800',
+      color: 'from-[#07121f] to-[#0a1629]',
     },
     {
       icon: <Phone className="w-6 h-6" />,
@@ -73,7 +84,7 @@ const Contact = () => {
       description: 'Speak directly with us',
       contact: '+1 (555) 123-4567',
       action: 'tel:+15551234567',
-      color: 'from-slate-900 to-slate-800',
+      color: 'from-[#07121f] to-[#0a1629]',
     },
     {
       icon: <MapPin className="w-6 h-6" />,
@@ -81,14 +92,14 @@ const Contact = () => {
       description: 'Come to our office',
       contact: '123 Tech Street, Silicon Valley',
       action: 'https://maps.google.com',
-      color: 'from-slate-900 to-slate-800',
+      color: 'from-[#07121f] to-[#0a1629]',
     },
   ];
 
   const socialLinks = [
-    { icon: <Github className="w-6 h-6" />, name: 'GitHub', url: 'https://github.com' },
-    { icon: <Twitter className="w-6 h-6" />, name: 'Twitter', url: 'https://twitter.com' },
-    { icon: <Linkedin className="w-6 h-6" />, name: 'LinkedIn', url: 'https://linkedin.com' },
+    { icon: <Twitter className="w-6 h-6" />, name: 'X (Twitter)', url: 'https://twitter.com/devcatalyst', gradient: 'from-slate-800 to-slate-900', hoverGradient: 'from-cyan-500/20 to-blue-500/20' },
+    { icon: <Linkedin className="w-6 h-6" />, name: 'LinkedIn', url: 'https://linkedin.com/company/devcatalyst', gradient: 'from-blue-900/40 to-blue-800/40', hoverGradient: 'from-blue-500/20 to-blue-600/20' },
+    { icon: <Instagram className="w-6 h-6" />, name: 'Instagram', url: 'https://instagram.com/devcatalyst', gradient: 'from-pink-900/40 to-purple-800/40', hoverGradient: 'from-pink-500/20 to-purple-500/20' },
   ];
 
   const faqs = [
@@ -116,6 +127,10 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>DevCatalyst | Contact</title>
+        <meta name="description" content="Contact DevCatalyst: reach our team via email, chat, or form to get involved or ask questions." />
+      </Helmet>
       <div className="select-text">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -210,7 +225,7 @@ const Contact = () => {
               <motion.a
                 key={index}
                 href={method.action}
-                className="group relative bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 hover:border-slate-600 transition-all duration-300 text-center"
+                className="group relative dc-card p-8 transition-all duration-300 text-center"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -241,16 +256,21 @@ const Contact = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Form */}
             <motion.div
-              className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
+              className="dc-card p-8"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-bold mb-6">
-                <span className="text-slate-100">Send us a </span>
-                <span className="text-cyan-300">Message</span>
-              </h3>
+                  <h3 className="text-3xl font-bold mb-6">
+                    <span className="text-slate-100">Send us a </span>
+                    <span className="text-cyan-300">Message</span>
+                  </h3>
+                  {error && (
+                    <div className="mb-4 text-red-400 text-sm" role="alert">
+                      {error}
+                    </div>
+                  )}
 
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -385,7 +405,7 @@ const Contact = () => {
             <div className="space-y-8">
               {/* Social Links */}
               <motion.div
-                className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
+                className="backdrop-blur-sm rounded-3xl p-8 border border-[#14284a] bg-[#07121f]/70"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -402,17 +422,31 @@ const Contact = () => {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all"
-                      whileHover={{ scale: 1.02, x: 5 }}
+                      className="group flex items-center space-x-4 p-4 rounded-xl transition-all bg-[#07121f]/60 hover:bg-[#07121f]/90 border border-[#14284a]/50 hover:border-cyan-500/30 relative overflow-hidden"
+                      whileHover={{ scale: 1.03, x: 5 }}
                       initial={{ opacity: 0, x: 20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       viewport={{ once: true }}
                     >
-                      <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                        <div className="text-cyan-300">{social.icon}</div>
+                      {/* Gradient background on hover */}
+                      <motion.div
+                        className={`absolute inset-0 bg-gradient-to-r ${social.hoverGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                      />
+                      <div className={`relative w-10 h-10 bg-gradient-to-br ${social.gradient} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <div className="text-cyan-300 group-hover:text-cyan-200 transition-colors">{social.icon}</div>
                       </div>
-                      <span className="text-slate-200 font-medium">{social.name}</span>
+                      <span className="relative text-slate-200 font-medium group-hover:text-white transition-colors">{social.name}</span>
+                      {/* Arrow indicator */}
+                      <motion.div
+                        className="relative ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                        initial={{ x: -10 }}
+                        whileHover={{ x: 0 }}
+                      >
+                        <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </motion.div>
                     </motion.a>
                   ))}
                 </div>
@@ -420,7 +454,7 @@ const Contact = () => {
 
               {/* FAQ */}
               <motion.div
-                className="bg-white/5 backdrop-blur-sm border border-slate-800 rounded-3xl p-8"
+                className="backdrop-blur-sm rounded-3xl p-8 border border-[#14284a] bg-[#07121f]/70"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}

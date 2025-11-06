@@ -15,9 +15,9 @@ import {
 import { Link } from 'react-router-dom';
 import Layout from '../components/common/Layout';
 import { LiquidButton } from '../components/ui/liquid-glass-button';
-import { StarsCanvas } from '../components/ui/stars-canvas';
 import { CtaButton } from '@/components/ui/cta-button';
-import { GradientButton } from '@/components/ui/gradient-button';
+
+import { Helmet } from 'react-helmet-async';
 
 const Gallery = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -133,17 +133,11 @@ const Gallery = () => {
       : projects.filter((project) => project.category === selectedFilter);
 
   return (
-    <Layout>
-      {/* Stars Background */}
-      <StarsCanvas
-        transparent={false}
-        maxStars={900}
-        hue={180}
-        brightness={0.7}
-        speedMultiplier={1.1}
-        twinkleIntensity={20}
-        className="z-0"
-      />
+    <Layout stars={{ transparent: false, maxStars: 900, hue: 180, brightness: 0.7, speedMultiplier: 1.1, twinkleIntensity: 20 }}>
+      <Helmet>
+        <title>DevCatalyst | Gallery</title>
+        <meta name="description" content="Explore projects by DevCatalyst members: web apps, mobile apps, AI/ML, and hackathon winners." />
+      </Helmet>
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -188,9 +182,11 @@ const Gallery = () => {
             code.
           </motion.p>
 
+          <div className="energy-divider max-w-2xl mx-auto mb-10" />
+
           {/* Stats */}
           <motion.div
-            className="grid grid-cols-3 gap-8 max-w-2xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
@@ -206,16 +202,9 @@ const Gallery = () => {
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.div
-                  className="text-2xl md:text-3xl font-bold text-white mb-1"
-                  animate={{
-                    textShadow: [
-                      '0 0 10px rgba(6,182,212,0.5)',
-                      '0 0 20px rgba(59,130,246,0.5)',
-                      '0 0 10px rgba(6,182,212,0.5)',
-                    ],
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  <motion.div
+                  className="text-2xl md:text-3xl font-bold mb-1 neon-counter"
+                  animate={{}}
                 >
                   {stat.number}
                 </motion.div>
@@ -268,7 +257,7 @@ const Gallery = () => {
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  className="group relative bg-white/5 backdrop-blur-sm border border-white/20 rounded-3xl overflow-hidden hover:border-white/40 transition-all duration-500 cursor-pointer"
+                  className="group relative dc-card overflow-hidden transition-all duration-500 cursor-pointer"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -391,16 +380,18 @@ const Gallery = () => {
                         <Github className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                         <span>Code</span>
                       </LiquidButton>
-                      <GradientButton
-                        className="sm:flex-1 w-full min-h-[48px]"
+                      <CtaButton
+                        className="sm:flex-1 w-full"
+                        size="md"
+                        variant="primary"
                         onClick={(e) => {
                           e.stopPropagation();
                           window.open(project.demo, '_blank');
                         }}
                       >
-                        <ExternalLink className="w-4 h-4 mr-2 flex-shrink-0" aria-hidden="true" />
+                        <ExternalLink className="w-4 h-4 mr-1.5 flex-shrink-0" aria-hidden="true" />
                         <span>Demo</span>
-                      </GradientButton>
+                      </CtaButton>
                     </div>
                   </div>
 
@@ -513,14 +504,15 @@ const Gallery = () => {
                     <Github className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                     <span>View Code</span>
                   </LiquidButton>
-                  <LiquidButton
+                  <CtaButton
                     size="lg"
-                    className="flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium px-6 py-4 min-h-[56px] focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-900 motion-safe:hover:scale-105 motion-reduce:hover:scale-100 motion-reduce:transition-none"
+                    variant="primary"
+                    className="flex items-center justify-center gap-3"
                     onClick={() => window.open(selectedProject.demo, '_blank')}
                   >
                     <ExternalLink className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                     <span>Live Demo</span>
-                  </LiquidButton>
+                  </CtaButton>
                 </div>
               </div>
             </motion.div>
