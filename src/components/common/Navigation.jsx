@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
-import { MoreHorizontal } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { MoreHorizontal, X } from 'lucide-react';
 
 const Navigation = ({ demoMode = false }) => {
   const location = useLocation();
@@ -10,6 +10,28 @@ const Navigation = ({ demoMode = false }) => {
   const [demoPath, setDemoPath] = useState(location.pathname);
   const [isMobile, setIsMobile] = useState(false);
   const [overflowOpen, setOverflowOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const hamburgerRef = useRef(null);
+  const closeRef = useRef(null);
+
+  // Helper to broadcast mobile nav state to the app (Layout)
+  const setMobileOpen = (open) => {
+    setMobileMenuOpen(open);
+    try {
+      window.dispatchEvent(new CustomEvent('dc_mobile_nav', { detail: { open } }));
+    } catch (_) {}
+  };
+
+  useEffect(() => {
+    const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (!isMobileViewport) return;
+    if (mobileMenuOpen) {
+      closeRef.current?.focus?.();
+    } else {
+      hamburgerRef.current?.focus?.();
+    }
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const unsub = scrollY.on("change", (latest) => {
@@ -38,118 +60,201 @@ const Navigation = ({ demoMode = false }) => {
   const overflowItems = isMobile ? navItems.slice(4) : [];
 
   return (
-    <motion.nav
-      className="fixed inset-x-0 flex justify-center px-2 sm:px-4 z-50"
-      style={{ paddingTop: 'max(env(safe-area-inset-top), 0.5rem)' }}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, type: 'spring', stiffness: 140 }}
-    >
-      <motion.div
-        className="relative mx-auto w-[calc(100vw-1rem)] sm:w-auto overflow-visible sm:overflow-x-auto no-scrollbar group rounded-full border border-slate-400/25 backdrop-blur-xl px-3 sm:px-7 py-2"
-        animate={{ backgroundColor: scrolled ? 'rgba(2, 6, 23, 0.7)' : 'rgba(2, 6, 23, 0.4)' }}
-        transition={{ duration: 0.2 }}
-        style={{ boxShadow: scrolled ? '0 10px 30px rgba(0,0,0,0.45)' : '0 6px 18px rgba(0,0,0,0.35)' }}
+    <>
+      {/* Desktop tubelight navbar (unchanged) */}
+      <motion.nav
+        className="hidden md:flex fixed inset-x-0 justify-center px-2 sm:px-4 z-50"
+        style={{ paddingTop: 'max(env(safe-area-inset-top), 0.5rem)' }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, type: 'spring', stiffness: 140 }}
       >
-        {/* subtle highlight */}
-        <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-          <div className="absolute inset-x-0 top-0 h-[35%] bg-gradient-to-b from-white/10 via-white/5 to-transparent" />
-        </div>
+        <motion.div
+          className="relative mx-auto w-[calc(100vw-1rem)] sm:w-auto overflow-visible sm:overflow-x-auto no-scrollbar group rounded-full border border-slate-400/25 backdrop-blur-xl px-3 sm:px-7 py-2"
+          animate={{ backgroundColor: scrolled ? 'rgba(2, 6, 23, 0.7)' : 'rgba(2, 6, 23, 0.4)' }}
+          transition={{ duration: 0.2 }}
+          style={{ boxShadow: scrolled ? '0 10px 30px rgba(0,0,0,0.45)' : '0 6px 18px rgba(0,0,0,0.35)' }}
+        >
+          {/* subtle highlight */}
+          <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+            <div className="absolute inset-x-0 top-0 h-[35%] bg-gradient-to-b from-white/10 via-white/5 to-transparent" />
+          </div>
 
-        <div className="flex items-center justify-center gap-1 sm:gap-4 relative z-10 flex-wrap sm:flex-nowrap sm:min-w-max">
-          {/* Left side items */}
-          <div className="flex items-center gap-1 sm:gap-2">
-            {visibleItems.slice(0, isMobile ? 2 : 3).map((item) => (
-              <NavLink
-                key={item.name}
-                item={item}
-                currentPath={demoMode ? demoPath : location.pathname}
-                demoMode={demoMode}
-                onActivate={(path) => setDemoPath(path)}
-              />
-            ))}
-          </div>
-          
-          {/* Logo - centered */}
-          <Link to={demoMode ? '#' : '/'} className="mx-2 sm:mx-4" onClick={(e) => { if (demoMode) e.preventDefault(); }}>
-            <motion.div
-              className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center relative shrink-0 overflow-hidden rounded-xl"
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.94 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                background: 'rgba(6, 14, 26, 0.6)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(100, 100, 100, 0.2)',
-              }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-cyan-500/15 blur-md opacity-0"
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.2 }}
-              />
-              <img
-                src="/devcatalyst-logo.svg"
-                alt="DevCatalyst Logo"
-                decoding="async"
-                /* eslint-disable-next-line react/no-unknown-property */
-                fetchpriority="high"
-                className="w-10 h-10 sm:w-12 sm:h-12 object-contain relative z-10 rounded-lg"
-                style={{ borderRadius: '0.5rem' }}
-              />
-            </motion.div>
-          </Link>
-          
-          {/* Right side items */}
-          <div className="flex items-center gap-1 sm:gap-2">
-            {visibleItems.slice(isMobile ? 2 : 3).map((item) => (
-              <NavLink
-                key={item.name}
-                item={item}
-                currentPath={demoMode ? demoPath : location.pathname}
-                demoMode={demoMode}
-                onActivate={(path) => setDemoPath(path)}
-              />
-            ))}
-          </div>
-          {/* Overflow (mobile only) */}
-          {isMobile && overflowItems.length > 0 && (
-            <div className="relative">
-              <button
-                type="button"
-                aria-haspopup="menu"
-                aria-expanded={overflowOpen}
-                onClick={() => setOverflowOpen((v) => !v)}
-                className="px-3 py-2 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
-                title="More"
-              >
-                <MoreHorizontal className="w-5 h-5" />
-              </button>
-              {overflowOpen && (
-                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-white/15 rounded-xl backdrop-blur-xl p-2 shadow-xl min-w-[160px]">
-                  {overflowItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={demoMode ? '#' : item.path}
-                      onClick={(e) => {
-                        if (demoMode) {
-                          e.preventDefault();
-                          setDemoPath(item.path);
-                        }
-                        setOverflowOpen(false);
-                      }}
-                      className="block px-3 py-2 rounded-md text-sm text-slate-200 hover:bg-white/10 hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
+          <div className="flex items-center justify-center gap-1 sm:gap-4 relative z-10 flex-wrap sm:flex-nowrap sm:min-w-max">
+            {/* Left side items */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {visibleItems.slice(0, isMobile ? 2 : 3).map((item) => (
+                <NavLink
+                  key={item.name}
+                  item={item}
+                  currentPath={demoMode ? demoPath : location.pathname}
+                  demoMode={demoMode}
+                  onActivate={(path) => setDemoPath(path)}
+                />
+              ))}
             </div>
-          )}
+            
+            {/* Logo - centered */}
+            <Link to={demoMode ? '#' : '/'} className="mx-2 sm:mx-4" onClick={(e) => { if (demoMode) e.preventDefault(); }}>
+              <motion.div
+                className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center relative shrink-0 overflow-hidden rounded-xl"
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  background: 'rgba(6, 14, 26, 0.6)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(100, 100, 100, 0.2)',
+                }}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-cyan-500/15 blur-md opacity-0"
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+                <img
+                  src="/devcatalyst-logo.svg"
+                  alt="DevCatalyst Logo"
+                  decoding="async"
+                  /* eslint-disable-next-line react/no-unknown-property */
+                  fetchpriority="high"
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-contain relative z-10 rounded-lg"
+                  style={{ borderRadius: '0.5rem' }}
+                />
+              </motion.div>
+            </Link>
+            
+            {/* Right side items */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {visibleItems.slice(isMobile ? 2 : 3).map((item) => (
+                <NavLink
+                  key={item.name}
+                  item={item}
+                  currentPath={demoMode ? demoPath : location.pathname}
+                  demoMode={demoMode}
+                  onActivate={(path) => setDemoPath(path)}
+                />
+              ))}
+            </div>
+            {/* Overflow (mobile only) */}
+            {isMobile && overflowItems.length > 0 && (
+              <div className="relative">
+                <button
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={overflowOpen}
+                  onClick={() => setOverflowOpen((v) => !v)}
+                  className="px-3 py-2 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+                  title="More"
+                >
+                  <MoreHorizontal className="w-5 h-5" />
+                </button>
+                {overflowOpen && (
+                  <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-white/15 rounded-xl backdrop-blur-xl p-2 shadow-xl min-w-[160px]">
+                    {overflowItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={demoMode ? '#' : item.path}
+                        onClick={(e) => {
+                          if (demoMode) {
+                            e.preventDefault();
+                            setDemoPath(item.path);
+                          }
+                          setOverflowOpen(false);
+                        }}
+                        className="block px-3 py-2 rounded-md text-sm text-slate-200 hover:bg-white/10 hover:text-white"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </motion.nav>
+
+      {/* Mobile hamburger button */}
+      <button
+        ref={hamburgerRef}
+        type="button"
+        aria-label="Open menu"
+        aria-controls="mobile-nav-overlay"
+        aria-expanded={mobileMenuOpen}
+        onClick={() => {
+          if (mobileMenuOpen) {
+            setMobileOpen(false);
+            if (demoMode) {
+              setDemoPath('/');
+            } else {
+              navigate('/');
+            }
+          } else {
+            setMobileOpen(true);
+          }
+        }}
+        className="md:hidden fixed top-5 left-5 z-50 rounded-full backdrop-blur-lg bg-white/10 border border-white/20 touch-target safe-top safe-left w-12 h-12 flex items-center justify-center overflow-hidden"
+      >
+        {/* Hamburger icon with neon glow */}
+        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]">
+          <path d="M4 7h16M4 12h16M8 17h12" stroke="#22d3ee" strokeWidth="2.2" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {/* Full-screen glass overlay */}
+      <div
+        id="mobile-nav-overlay"
+        aria-hidden={!mobileMenuOpen}
+        className={`md:hidden fixed inset-0 w-full h-full z-40 bg-black/50 backdrop-blur-xl ring-1 ring-white/10 transition-opacity duration-300 ${
+          mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={(e) => {
+          // Close if clicking the dimmed backdrop (not when clicking inside the menu container)
+          if (e.target === e.currentTarget) setMobileOpen(false);
+        }}
+      >
+        {/* Close button inside overlay */}
+        <button
+          ref={closeRef}
+          type="button"
+          aria-label="Close menu"
+          onClick={() => setMobileOpen(false)}
+          className="absolute top-5 right-5 z-50 rounded-full backdrop-blur-lg bg-white/10 border border-white/20 safe-top safe-right w-12 h-12 flex items-center justify-center"
+        >
+          <X className="w-6 h-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]" strokeWidth={2.5} />
+        </button>
+
+        {/* Overlay content */}
+        <div className="w-full h-full flex items-center justify-center">
+          <nav className="flex flex-col items-center gap-6">
+            {navItems.map((item) => {
+              const isActive = (demoMode ? demoPath : location.pathname) === item.path;
+              return (
+                <Link
+                  key={item.name}
+                  to={demoMode ? '#' : item.path}
+                  onClick={(e) => {
+                    if (demoMode) {
+                      e.preventDefault();
+                      setDemoPath(item.path);
+                    }
+                    setMobileOpen(false);
+                  }}
+                  className={`text-2xl font-semibold ${
+                    isActive
+                      ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]'
+                      : 'text-white hover:text-cyan-300'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-      </motion.div>
-    </motion.nav>
+      </div>
+    </>
   );
 };
 

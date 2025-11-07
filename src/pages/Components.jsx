@@ -227,18 +227,20 @@ const Components = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {components.map((component, index) => (
+            {components.map((component, index) => {
+              const hideOnMobile = component.id === 'tubelight-navbar';
+              return (
               <motion.div
                 key={component.id}
                 role="button"
                 tabIndex={0}
-                className="group relative dc-card overflow-hidden hover:border-slate-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                className={`group relative dc-card overflow-hidden hover:border-slate-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 ${hideOnMobile ? 'hidden md:block' : ''}`}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 whileHover={{ y: -4 }}
                 viewport={{ once: true }}
-onClick={() => { setSelectedDemo(component.demo); }}
+                onClick={() => { setSelectedDemo(component.demo); }}
                 onKeyDown={(e) => { if (e.key === 'Enter') { setSelectedDemo(component.demo); } }}
               >
 
@@ -318,7 +320,8 @@ onClick={() => { setSelectedDemo(component.demo); }}
                 {/* Hover overlay */}
                 <motion.div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" />
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Call to Action */}

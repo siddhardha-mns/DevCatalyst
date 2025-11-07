@@ -63,14 +63,14 @@ export function Modal({ isOpen, onClose, title, children, nonSelectable = false 
     >
       <div
         ref={contentRef}
-        className={`relative w-full max-w-[1000px] rounded-2xl border border-white/15 bg-[#07121f]/70 text-slate-100 shadow-xl backdrop-blur-xl holo-card holo-edge overflow-hidden ${nonSelectable ? 'select-none' : ''}`}
+        className={`relative w-full max-w-[1000px] max-h-[90dvh] md:max-h-[90vh] flex flex-col rounded-2xl border border-white/15 bg-[#07121f]/70 text-slate-100 shadow-xl backdrop-blur-xl holo-card holo-edge overflow-hidden ${nonSelectable ? 'select-none' : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* hologram scanline */}
         <div className="pointer-events-none absolute inset-0 bg-scanlines opacity-20 sm:opacity-30" />
         {/* edge shimmer */}
         <div className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 40px rgba(0,198,255,0.08)' }} />
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+        <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#07121f]/80 backdrop-blur-md">
           <h3 className="text-base font-semibold neon-heading">{title}</h3>
           <button
             type="button"
@@ -80,7 +80,7 @@ export function Modal({ isOpen, onClose, title, children, nonSelectable = false 
             Close
           </button>
         </div>
-        <div className="p-3 md:p-6 relative z-10">{children}</div>
+        <div className="p-3 md:p-6 relative z-10 overflow-y-auto overscroll-contain">{children}</div>
       </div>
     </div>
   );

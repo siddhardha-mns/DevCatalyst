@@ -59,7 +59,7 @@ const Team = () => {
             <Users className="w-5 h-5 text-cyan-300" />
             Our Team
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold mt-6 text-white">
+          <h1 className="text-4xl md:text-7xl font-bold mt-6 text-white leading-tight balance hyphens-auto">
             <span>Meet the </span>
             <GradientText>People</GradientText>
             <span> behind DevCatalyst</span>
@@ -81,24 +81,24 @@ const Team = () => {
 
 const Card = ({ m }) => (
   <motion.div
-    className="group relative dc-card p-6 flex flex-col items-center text-center"
+    className="group relative dc-card p-5 md:p-6 flex flex-col items-center text-center"
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.5 }}
   >
-    <div className="relative w-36 h-36 mb-5">
+    <div className="relative w-32 h-32 md:w-36 md:h-36 mb-5">
       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/25 to-blue-600/20 blur-2xl" />
-      <img src={m.image} alt={m.name} loading="lazy" decoding="async" className="relative w-36 h-36 rounded-full object-cover border border-white/20" />
+      <img src={m.image} alt={m.name} loading="lazy" decoding="async" className="relative w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border border-white/20" />
     </div>
-    <h3 className="text-2xl font-bold text-white">{m.name}</h3>
-    <p className="text-cyan-300 font-medium mb-3 text-lg">{m.role}</p>
-    {m.bio && <p className="text-slate-300 text-base mb-5">{m.bio}</p>}
+    <h3 className="text-xl md:text-2xl font-bold text-white">{m.name}</h3>
+    <p className="text-cyan-300 font-medium mb-3 text-base md:text-lg">{m.role}</p>
+    {m.bio && <p className="text-slate-300 text-sm md:text-base mb-5 clamp-2 md-unclamp">{m.bio}</p>}
     <div className="flex items-center gap-4">
-      <a href={m.github} aria-label={`${m.name} on GitHub`} className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors" target="_blank" rel="noreferrer">
+      <a href={m.github} aria-label={`${m.name} on GitHub`} className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors touch-target" target="_blank" rel="noreferrer">
         <Github className="w-5 h-5 text-white" />
       </a>
-      <a href={m.instagram} aria-label={`${m.name} on Instagram`} className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors" target="_blank" rel="noreferrer">
+      <a href={m.instagram} aria-label={`${m.name} on Instagram`} className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors touch-target" target="_blank" rel="noreferrer">
         <Instagram className="w-5 h-5 text-white" />
       </a>
     </div>
@@ -111,7 +111,7 @@ const Section = ({ title, members }) => (
       <h2 className="text-3xl md:text-4xl font-bold mb-10 accent-heading">
         {title}
       </h2>
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-8 gap-x-6 md:gap-10">
         {members.map((m) => (
           <Card key={`${title}-${m.name}`} m={m} />
         ))}

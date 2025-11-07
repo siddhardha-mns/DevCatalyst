@@ -174,7 +174,7 @@ const Workshops = () => {
           </motion.div>
 
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 text-slate-100"
+            className="text-4xl md:text-7xl font-bold mb-6 text-slate-100 leading-tight balance hyphens-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}
@@ -184,7 +184,7 @@ const Workshops = () => {
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-slate-300 mb-12 max-w-4xl mx-auto"
+            className="text-base md:text-xl leading-relaxed text-slate-300 mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1 }}
@@ -195,7 +195,7 @@ const Workshops = () => {
 
           {/* Quick Stats */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mb-12"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-y-6 gap-x-8 max-w-2xl mx-auto mb-12"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
@@ -273,7 +273,7 @@ const Workshops = () => {
               {filteredWorkshops.map((workshop, index) => (
                 <motion.div
                   key={workshop.id}
-                  className={`group relative dc-card overflow-hidden transition-all duration-300 cursor-pointer`}
+                  className={`group relative dc-card overflow-hidden transition-all duration-300 cursor-pointer scale-[0.9] md:scale-100`}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.06 }}

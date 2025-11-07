@@ -2,7 +2,7 @@ import Navigation from '@/components/common/Navigation.jsx';
 
 export function TubeLightNavBarDemo() {
   return (
-    <div className="relative p-6">
+    <div className="relative p-6 hidden md:block">
       {/* Demo nav in contained card for consistent theme */}
       <div className="dc-card p-6 max-w-4xl mx-auto">
         <div className="text-center mb-6">

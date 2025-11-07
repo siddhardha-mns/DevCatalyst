@@ -19,6 +19,8 @@ const Layout = ({ children, stars = {} }) => {
   const [componentsCollapsed, setComponentsCollapsed] = useState(false);
   const cardRef = useRef(null);
   const [bottomOffset, setBottomOffset] = useState(0);
+  const [suppressChrome, setSuppressChrome] = useState(false);
+  const scrollLimitRef = useRef({ enabled: false, max: 0, touchStartY: 0 });
 
   const starsConfig = {
     enabled: stars.enabled !== false,
@@ -34,6 +36,86 @@ const Layout = ({ children, stars = {} }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Hide global chrome when mobile menu is open and limit scroll on mobile
+  useEffect(() => {
+    const cleanupScrollGuards = () => {
+      if (scrollLimitRef.current.enabled) {
+        window.removeEventListener('scroll', onScrollClamp, { passive: true });
+        window.removeEventListener('wheel', onWheelGuard, { passive: false });
+        window.removeEventListener('touchstart', onTouchStart, { passive: false });
+        window.removeEventListener('touchmove', onTouchMoveGuard, { passive: false });
+        scrollLimitRef.current.enabled = false;
+      }
+      // Restore any body styles if we altered them in the future
+    };
+
+    const onScrollClamp = () => {
+      const max = scrollLimitRef.current.max;
+      if (window.scrollY > max) {
+        window.scrollTo(0, max);
+      }
+    };
+    const onWheelGuard = (e) => {
+      const max = scrollLimitRef.current.max;
+      if (window.scrollY >= max && e.deltaY > 0) {
+        e.preventDefault();
+      }
+    };
+    const onTouchStart = (e) => {
+      const t = e.touches && e.touches[0];
+      if (t) scrollLimitRef.current.touchStartY = t.clientY;
+    };
+    const onTouchMoveGuard = (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      const dy = scrollLimitRef.current.touchStartY - t.clientY; // positive when scrolling down
+      if (dy > 0) {
+        const max = scrollLimitRef.current.max;
+        if (window.scrollY >= max) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    const handler = (e) => {
+      const desiredOpen = !!(e?.detail?.open);
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+      if (!isMobile) {
+        // Ensure desktop never gets suppressed
+        setSuppressChrome(false);
+        cleanupScrollGuards();
+        return;
+      }
+
+      setSuppressChrome(desiredOpen);
+      if (desiredOpen) {
+        setShowComponentsCard(false);
+        // Install scroll guards to clamp to ~50% of page height
+        const doc = document.documentElement;
+        const max = Math.floor(doc.scrollHeight * 0.5);
+        scrollLimitRef.current.max = max;
+        if (!scrollLimitRef.current.enabled) {
+          window.addEventListener('scroll', onScrollClamp, { passive: true });
+          window.addEventListener('wheel', onWheelGuard, { passive: false });
+          window.addEventListener('touchstart', onTouchStart, { passive: false });
+          window.addEventListener('touchmove', onTouchMoveGuard, { passive: false });
+          scrollLimitRef.current.enabled = true;
+        }
+        // Immediately clamp if already beyond
+        if (window.scrollY > max) window.scrollTo(0, max);
+      } else {
+        cleanupScrollGuards();
+      }
+    };
+
+    window.addEventListener('dc_mobile_nav', handler);
+    return () => {
+      window.removeEventListener('dc_mobile_nav', handler);
+      cleanupScrollGuards();
+    };
+  }, []);
 
   // Mouse spotlight tracking
   useEffect(() => {
@@ -113,8 +195,8 @@ const Layout = ({ children, stars = {} }) => {
                     maxStars={deepMax}
                     hue={(starsConfig.hue ?? 220) - 10}
                     brightness={(starsConfig.brightness ?? 0.8) * 0.8}
-                    speedMultiplier={(starsConfig.speedMultiplier ?? 1) * 0.55}
-                    twinkleIntensity={(starsConfig.twinkleIntensity ?? 20) * 0.7}
+                    speedMultiplier={isSmall ? (starsConfig.speedMultiplier ?? 1) * 0.45 : (starsConfig.speedMultiplier ?? 1) * 0.55}
+                    twinkleIntensity={isSmall ? (starsConfig.twinkleIntensity ?? 20) * 0.55 : (starsConfig.twinkleIntensity ?? 20) * 0.7}
                     className={starsConfig.className}
                   />
                   {/* Near layer only on desktop */}
@@ -147,9 +229,9 @@ const Layout = ({ children, stars = {} }) => {
         )}
       </div>
 
-      <ScrollProgress />
+      {!suppressChrome && <ScrollProgress />}
       <Navigation />
-      <ScrollToTop />
+      {!suppressChrome && <ScrollToTop />}
 
       {/* Page Content */}
       <motion.main
@@ -157,7 +239,7 @@ const Layout = ({ children, stars = {} }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10"
+        className="relative z-10 px-4 md:px-0 space-y-8 md:space-y-0"
         style={{ paddingBottom: bottomOffset }}
       >
         {children}
@@ -233,7 +315,7 @@ const Layout = ({ children, stars = {} }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setComponentsCollapsed(false)}
-            className="fixed bottom-20 right-4 sm:bottom-24 sm:right-8 z-40 inline-flex items-center justify-center w-12 h-12 p-0 rounded-2xl bg-gradient-to-r from-cyan-500/30 to-blue-600/30 border border-white/25 text-slate-100 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.35)] safe-bottom safe-right touch-target"
+            className="fixed bottom-20 right-5 md:bottom-24 md:right-8 z-40 inline-flex items-center justify-center w-12 h-12 p-0 rounded-2xl bg-gradient-to-r from-cyan-500/30 to-blue-600/30 border border-white/25 text-slate-100 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.35)] safe-bottom safe-right touch-target"
             title="Open components info"
             aria-label="Open components info"
           >
