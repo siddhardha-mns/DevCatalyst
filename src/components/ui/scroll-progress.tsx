@@ -83,7 +83,7 @@ export const ScrollToTop: React.FC<{ targetRef?: React.RefObject<HTMLElement>; w
 
   const btnClasses = withinContainer
     ? 'sticky bottom-6 ml-auto mr-6 z-20'
-    : 'fixed bottom-8 right-8 z-40';
+    : 'fixed bottom-5 right-5 md:bottom-8 md:right-8 z-40';
 
   return (
     <motion.button

@@ -86,7 +86,7 @@ const About = () => {
           </motion.div>
 
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-8"
+            className="text-4xl md:text-7xl font-bold mb-8 leading-tight balance hyphens-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 1 }}
@@ -102,7 +102,7 @@ const About = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-slate-200 mb-12 max-w-4xl mx-auto"
+            className="text-base md:text-2xl leading-relaxed text-slate-200 mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}

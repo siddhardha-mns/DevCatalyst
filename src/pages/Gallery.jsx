@@ -159,7 +159,7 @@ const Gallery = () => {
           </motion.div>
 
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-8 text-white"
+            className="text-4xl md:text-7xl font-bold mb-8 text-white leading-tight balance hyphens-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1 }}
@@ -172,7 +172,7 @@ const Gallery = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-slate-200 mb-12 max-w-4xl mx-auto"
+            className="text-base md:text-2xl leading-relaxed text-slate-200 mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1 }}
@@ -186,7 +186,7 @@ const Gallery = () => {
 
           {/* Stats */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-y-6 gap-x-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
@@ -257,7 +257,7 @@ const Gallery = () => {
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  className="group relative dc-card overflow-hidden transition-all duration-500 cursor-pointer"
+                  className="group relative dc-card overflow-hidden transition-all duration-500 cursor-pointer scale-[0.9] md:scale-100"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}

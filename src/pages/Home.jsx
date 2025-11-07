@@ -174,7 +174,7 @@ const Home = () => {
           style={{ zIndex: 10, position: 'relative' }}
         >
           {/* Hero Section */}
-          <section className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
+          <section className="relative min-h-screen flex items-center justify-center px-6 pt-20 safe-top overflow-hidden">
             <motion.div className="max-w-5xl mx-auto text-center relative z-10" style={{ y: y1 }}>
               <motion.div
                 className="mb-6"
@@ -191,7 +191,7 @@ const Home = () => {
               </motion.div>
 
               <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 group"
+                className="text-4xl md:text-7xl lg:text-8xl font-bold mb-6 group leading-tight balance hyphens-auto"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 1 }}
@@ -200,7 +200,7 @@ const Home = () => {
               </motion.h1>
 
               <motion.p
-                className="text-xl md:text-2xl text-slate-200 mb-8 max-w-3xl mx-auto"
+                className="text-base md:text-2xl leading-relaxed text-slate-200 mb-8 max-w-3xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1 }}
@@ -279,7 +279,7 @@ const Home = () => {
                 </p>
               </motion.div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-6 md:gap-8">
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
@@ -302,7 +302,7 @@ const Home = () => {
                         {feature.title}
                       </GradientText>
                     </h3>
-                    <p className="text-slate-300 leading-relaxed">{feature.description}</p>
+                    <p className="text-slate-300 leading-relaxed clamp-3">{feature.description}</p>
                   </motion.div>
                 ))}
               </div>
@@ -329,7 +329,7 @@ const Home = () => {
 };
 
 // Complex but performant headline animation
-const AnimatedHeadline = () => {
+  const AnimatedHeadline = () => {
   const words = [
     { text: 'Build.', gradient: 'from-slate-100 via-white to-slate-100' },
     { text: 'Learn.', gradient: 'from-slate-100 via-white to-slate-100' },
@@ -337,7 +337,7 @@ const AnimatedHeadline = () => {
   ];
 
   return (
-    <span className="inline-flex flex-wrap items-baseline gap-x-3">
+    <span className="inline-flex w-full justify-center text-center flex-wrap items-baseline gap-x-3">
       {words.map((w, wi) => (
         <motion.span
           key={wi}
